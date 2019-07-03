@@ -11,7 +11,7 @@ build-api:
     - docker push "$CI_REGISTRY_IMAGE:API"
   only:
     changes:
-      - API/**/*
+      - services/API/**/*
 
 build-ui:
   stage: build
@@ -23,4 +23,4 @@ build-ui:
     - docker push "$CI_REGISTRY_IMAGE:UI"
   only:
     changes:
-      - UI/**/*
+      - services/UI/**/*
