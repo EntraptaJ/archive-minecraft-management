@@ -34,11 +34,7 @@ const startWeb = async () => {
     }),
   });
 
-  router.get('/mods.zip', async (ctx, next) => {
-    const tmpFile = tempy.file();
-    await zip('/minecraft/mods', tmpFile)
-    await send(ctx, tmpFile)
-  })
+  router.get('/mods.zip', async (ctx, next) => send(ctx, 'mods.zip'))
 
   createRouteExplorer({
     url: '/altair',
