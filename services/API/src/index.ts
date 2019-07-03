@@ -34,7 +34,7 @@ const startWeb = async () => {
   });
 
   router.get('/mods.zip', async (ctx, next) => {
-    await zip('minecraft/mods', 'mods.zip')
+    await zip('/minecraft/mods', 'mods.zip')
     await send(ctx, 'mods.zip')
   })
 
