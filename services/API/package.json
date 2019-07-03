@@ -47,6 +47,7 @@
     "mongoose-autopopulate": "^0.9.1",
     "p-event": "^4.1.0",
     "reflect-metadata": "^0.1.13",
+    "tempy": "^0.3.0",
     "type-graphql": "^0.17.4",
     "typegoose": "^5.6.0",
     "zip-a-folder": "0.0.8"

@@ -7,6 +7,7 @@ import Koa from 'koa';
 import jwt from 'koa-jwt';
 import KoaRouter from 'koa-router';
 import mongoose from 'mongoose';
+import tempy from 'tempy'
 import { zip } from 'zip-a-folder'
 import send from 'koa-send'
 import { createRouteExplorer } from 'altair-koa-middleware';
@@ -34,8 +35,9 @@ const startWeb = async () => {
   });
 
   router.get('/mods.zip', async (ctx, next) => {
-    await zip('/minecraft/mods', 'mods.zip')
-    await send(ctx, 'mods.zip')
+    const tmpFile = tempy.file();
+    await zip('/minecraft/mods', tmpFile)
+    await send(ctx, tmpFile)
   })
 
   createRouteExplorer({
