@@ -14,7 +14,7 @@ export async function build(watch: boolean = false) {
 
   await run('tsc --build src/tsconfig.json');
 
-  const json = await generateFragement('http://localhost')
+  const json = await generateFragement('https://mc.kristianjones.dev/graphql')
   await writeJSON('ui/fragmentTypes.json', json)
 
   const bundler = new ParcelBundler('ui/client.tsx', {
