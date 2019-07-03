@@ -37,9 +37,8 @@ const startWeb = async () => {
 
   router.get('/mods.zip', async (ctx, next) => {
     const tmpFile = tempy.file({ extension: '.zip' });
-    console.log(tmpFile)
-    await zip('/minecraft/mods', tmpFile)
-    await send(ctx, tmpFile)
+    await zip('minecraft/mods', tmpFile)
+    await send(ctx, tmpFile, { root: '/'})
     await remove(tmpFile)
   })
 
@@ -59,7 +58,7 @@ const startWeb = async () => {
 
 const startAPI = async () => {
   console.log('Starting API');
-  await mongoose.connect('mongodb://mc-db:27017/DOCS');
+  await mongoose.connect('mongodb://localhost:27017/DOCS');
 
   const [app] = await Promise.all([startWeb()]);
   await app.listen(port);
