@@ -17,6 +17,13 @@ const LoginRoute = Loadable({
   delay: 500,
 });
 
+const ModsRoute = Loadable({
+  loader: () => import('~routes/Mods'),
+  modules: ['routes/Mods/index.tsx'],
+  loading: Loader,
+  delay: 500,
+});
+
 export interface ChildNavItem {
   label: string;
   path: string;
@@ -33,5 +40,6 @@ export type NavItem = ChildNavItem | ParentNavItem;
 
 export const routes: NavItem[] = [
   { label: 'Home', path: '/', component: HomeRoute },
+  { label: 'Mods', path: '/mods', component: ModsRoute },
   { label: 'Login', path: '/login', component: LoginRoute },
 ];

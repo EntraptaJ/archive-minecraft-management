@@ -1,16 +1,16 @@
 // API/src/index.ts
 // Kristian Jones <me@kristianjones.xyz>
 // Main startup of Docs Markdown API
-import 'reflect-metadata'
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-koa';
 import Koa from 'koa';
 import jwt from 'koa-jwt';
 import KoaRouter from 'koa-router';
 import mongoose from 'mongoose';
-import tempy from 'tempy'
-import { zip } from 'zip-a-folder'
-import send from 'koa-send'
-import { remove } from 'fs-extra'
+import tempy from 'tempy';
+import { zip } from 'zip-a-folder';
+import send from 'koa-send';
+import { remove } from 'fs-extra';
 import { createRouteExplorer } from 'altair-koa-middleware';
 import { buildAPISchema } from './API';
 import { Context } from './API/Context';
@@ -37,10 +37,16 @@ const startWeb = async () => {
 
   router.get('/mods.zip', async (ctx, next) => {
     const tmpFile = tempy.file({ extension: '.zip' });
-    await zip('/minecraft/mods', tmpFile)
-    await send(ctx, tmpFile, { root: '/'})
-    await remove(tmpFile)
-  })
+    await zip('/minecraft/mods', tmpFile);
+    await send(ctx, tmpFile, { root: '/' });
+    await remove(tmpFile);
+  });
+
+  router.get('/downloadMod/:modName', async (ctx, next) => {
+    const modName = ctx.params.modName;
+    if (!modName) next();
+    else await send(ctx, modName, { root: '/minecraft/mods' });
+  });
 
   createRouteExplorer({
     url: '/altair',
@@ -58,7 +64,8 @@ const startWeb = async () => {
 
 const startAPI = async () => {
   console.log('Starting API');
-  await mongoose.connect('mongodb://mc-db:27017/DOCS');
+  const db = process.env.NODE_ENV === 'production' ? 'mc-db' : 'localhost';
+  await mongoose.connect(`mongodb://${db}:27017/DOCS`);
 
   const [app] = await Promise.all([startWeb()]);
   await app.listen(port);

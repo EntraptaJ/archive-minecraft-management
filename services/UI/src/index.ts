@@ -9,7 +9,7 @@ const StartServer = async () => {
   app.use(cookiesMiddleware())
   app.use(express.static('dist/public'))
   app.use(hotUiServer)
-  app.listen(80, () => console.log('http://localhost:81'))
+  app.listen(81, () => console.log('http://localhost:81'))
 }
 
 StartServer()
