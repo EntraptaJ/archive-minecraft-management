@@ -10,6 +10,7 @@ import mongoose from 'mongoose';
 import tempy from 'tempy'
 import { zip } from 'zip-a-folder'
 import send from 'koa-send'
+import { remove } from 'fs-extra'
 import { createRouteExplorer } from 'altair-koa-middleware';
 import { buildAPISchema } from './API';
 import { Context } from './API/Context';
@@ -34,7 +35,12 @@ const startWeb = async () => {
     }),
   });
 
-  router.get('/mods.zip', async (ctx, next) => send(ctx, 'mods.zip'))
+  router.get('/mods.zip', async (ctx, next) => {
+    const tmpFile = tempy.file();
+    await zip('/minecraft/mods', tmpFile)
+    await send(ctx, tmpFile)
+    await remove(tmpFile)
+  })
 
   createRouteExplorer({
     url: '/altair',
