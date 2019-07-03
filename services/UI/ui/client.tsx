@@ -4,7 +4,7 @@ import ReactDOM, { Renderer } from 'react-dom';
 import { preloadReady } from 'react-loadable';
 import Cookies from 'js-cookie';
 import { setStylesTarget } from 'typestyle';
-import { App as AppComponent } from '~/App';
+import { App as AppComponent } from '~App';
 import { PathPropsObject, PropProvider } from '~Components/PropsProvider';
 import { initApollo } from '~lib/initApollo';
 
