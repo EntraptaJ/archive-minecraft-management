@@ -6,7 +6,7 @@ import { Capture, preloadAll } from 'react-loadable';
 import { getStyles } from 'typestyle';
 import { renderToString } from 'react-dom/server';
 import { App } from './App';
-import { Document, AppState, Source } from '~/Document';
+import { Document, AppState, Source } from './Document';
 import { readJSON } from 'fs-extra';
 import { PropProvider, Props, PathPropsObject } from './components/PropsProvider';
 import { initApollo } from '~lib/initApollo';
