@@ -19,7 +19,7 @@ async function render(renderFunction: Renderer, App: typeof AppComponent) {
     <PropProvider props={PageProps} sessionProps={sessionProps} path={window.location.pathname}>
       <ApolloProvider
         client={initApollo({
-          baseUrl: 'http://192.168.254.179',
+          baseUrl: 'https://mc.kristianjones.dev',
           initialState: window.APP_STATE.APOLLO_STATE,
           token: Cookies.get('token'),
         })}

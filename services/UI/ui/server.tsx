@@ -8,7 +8,7 @@ import { renderToString } from 'react-dom/server';
 import { App } from './App';
 import { Document, AppState, Source } from './Document';
 import { readJSON } from 'fs-extra';
-import { PropProvider, Props, PathPropsObject } from './components/PropsProvider';
+import { PropProvider, Props, PathPropsObject } from './Components/PropsProvider';
 import { initApollo } from '~lib/initApollo';
 
 export async function uiServer(req: Request, res: Response) {
