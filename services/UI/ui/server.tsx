@@ -22,7 +22,10 @@ export async function uiServer(req: Request, res: Response) {
 
   const client = initApollo({ baseUrl: 'https://mc.kristianjones.dev', token: req.universalCookies.get('token') });
 
-  const sources: Source[] = [{ type: 'script', src: parcelManifest['client.tsx']}, { type: 'style', src: cssManifest['client.tsx']}];
+  const sources: Source[] = [
+    { type: 'script', src: parcelManifest['client.tsx'] },
+    { type: 'style', src: cssManifest['client.tsx'] },
+  ];
 
   let modules: string[] = [];
 
@@ -65,13 +68,12 @@ export async function uiServer(req: Request, res: Response) {
     if (isRedirect(error)) {
       res.redirect(error.uri);
     } else {
-      
     }
   }
 
   modules.map(moduleName =>
     Object.entries(parcelManifest)
-      .filter(([a, b]) =>  a === moduleName || cssManifest[moduleName] === b)
+      .filter(([a, b]) => a === moduleName || cssManifest[moduleName] === b)
       .map(([modulePath, file]) => sources.unshift({ src: file, type: file.includes('.js') ? 'script' : 'style' })),
   );
 
