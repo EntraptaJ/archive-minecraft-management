@@ -1,0 +1,26 @@
+variables:
+  DOCKER_DRIVER: overlay2
+
+build-api:
+  stage: build
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - cd ./services/API
+    - docker build -t "$CI_REGISTRY_IMAGE:API" . -f Dockerfile
+    - docker push "$CI_REGISTRY_IMAGE:API"
+  only:
+    changes:
+      - API/**/*
+
+build-ui:
+  stage: build
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - cd ./services/UI
+    - docker build -t "$CI_REGISTRY_IMAGE:UI" . -f Dockerfile
+    - docker push "$CI_REGISTRY_IMAGE:UI"
+  only:
+    changes:
+      - UI/**/*

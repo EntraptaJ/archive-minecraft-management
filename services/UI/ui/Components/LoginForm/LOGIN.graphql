@@ -1,0 +1,1 @@
+mutation login($Username:String!,$Password:String!){loginUser(username:$Username,password:$Password){success token}}

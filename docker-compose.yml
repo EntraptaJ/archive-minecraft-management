@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db: 
+    image: mvertes/alpine-mongo
+    ports:
+      - 27017:27017
+  test-minecraft:
+    image: itzg/minecraft-server
+    ports:
+      - 25566:25565
+    name: MC
+    environment:
+      - TYPE=FORGE
+      - VERSION=1.12.2
+      - FORGEVERSION=14.23.5.2838
+      - EULA=TRUE
+    volumes:
+      - '$PWD/services/API/minecraft:/data'     
+    tty: true
+    stdin_open: true
+    restart: unless-stopped

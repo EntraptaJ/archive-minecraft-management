@@ -1,0 +1,7 @@
+{
+  "client.tsx": "/client.js",
+  "routes/Home/index.tsx": "/Home.4dd9848f.js",
+  "../node_modules/@material/typography/dist/mdc.typography.css": "/Home.380dec6a.css",
+  "routes/Authenication/index.tsx": "/Authenication.73d45f59.js",
+  "../node_modules/@material/button/dist/mdc.button.min.css": "/Authenication.83c16f5b.css"
+}
