@@ -36,7 +36,8 @@ const startWeb = async () => {
   });
 
   router.get('/mods.zip', async (ctx, next) => {
-    const tmpFile = tempy.file();
+    const tmpFile = tempy.file({ extension: '.zip' });
+    console.log(tmpFile)
     await zip('/minecraft/mods', tmpFile)
     await send(ctx, tmpFile)
     await remove(tmpFile)
