@@ -6,6 +6,8 @@ import { EventEmitter } from 'events';
 
 let id = 0;
 
+const MCContainerName = process.env.MCName || 'mc';
+
 export class RCONPubSub extends PubSubEngine {
   public rcon: Rcon;
   public ee = new EventEmitter();
@@ -17,7 +19,7 @@ export class RCONPubSub extends PubSubEngine {
 
   public async subscribe(triggerName: string, onMessage: (...args: any[]) => string) {
     this.rcon = await Rcon.connect({
-      host: 'localhost',
+      host: MCContainerName,
       port: 25575,
       password: 'minecraft',
     });
