@@ -6,7 +6,6 @@ import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import WS from 'ws'
 import { OperationDefinitionNode } from 'graphql';
-import introspectionQueryResultData from '../fragmentTypes.json';
 import { createUploadLink } from 'apollo-upload-client';
 
 interface InitClientParams {
@@ -14,10 +13,6 @@ interface InitClientParams {
   initialState?: NormalizedCacheObject;
   token?: string;
 }
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
-});
 
 export const initApollo = ({ baseUrl, initialState, token }: InitClientParams) => {
   const httpLink = createUploadLink({
@@ -55,6 +50,6 @@ export const initApollo = ({ baseUrl, initialState, token }: InitClientParams) =
     connectToDevTools: process.browser,
     ssrMode: !process.browser,
     link: link,
-    cache: new InMemoryCache({ fragmentMatcher }).restore(initialState || {}),
+    cache: new InMemoryCache().restore(initialState || {}),
   });
 };
