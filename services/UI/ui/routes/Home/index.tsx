@@ -27,7 +27,7 @@ const HomeRoute: React.FunctionComponent<RouteComponentProps> = () => {
       <div style={FormStyle}>
         <Typography use='headline4'>Minecraft Server</Typography>
         <Button onClick={() => navigate('/mods')} raised label='Mods' />
-        {data.getStatus.players.length > 0 ? <List>{data.getStatus.players.map((user) => <ListItem>{user}</ListItem>)}</List> : <Typography use='body1'>No one is Online</Typography>}
+        {data.getStatus.players.length > 0 ? <List>{data.getStatus.players.map((user) => <ListItem key={user}>{user}</ListItem>)}</List> : <Typography use='body1'>No one is Online</Typography>}
       </div>
     </div>
   );

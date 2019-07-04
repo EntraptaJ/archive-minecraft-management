@@ -1,0 +1,1 @@
+mutation runCommand($command:String!){runCommand(command:$command)}

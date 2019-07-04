@@ -1,11 +1,12 @@
 import { ApolloProvider } from '@apollo/react-hooks';
 import React from 'react';
+import { PathPropsObject, PropProvider } from '~Prop';
 import ReactDOM, { Renderer } from 'react-dom';
 import { preloadReady } from 'react-loadable';
 import Cookies from 'js-cookie';
 import { setStylesTarget } from 'typestyle';
 import { App as AppComponent } from '~App';
-import { PathPropsObject, PropProvider } from '~Components/PropsProvider';
+
 import { initApollo } from '~lib/initApollo';
 
 async function render(renderFunction: Renderer, App: typeof AppComponent) {
@@ -13,20 +14,18 @@ async function render(renderFunction: Renderer, App: typeof AppComponent) {
   const StyleElement = document.getElementById('styles');
   if (StyleElement) setStylesTarget(StyleElement);
   let PageProps = window.APP_STATE.PROPS;
-
   sessionProps = window.APP_STATE.SESSIONPROPS;
+  const client = initApollo({
+    baseUrl: 'http://localhost',
+    initialState: window.APP_STATE.APOLLO_STATE,
+    token: Cookies.get('token'),
+  });
   renderFunction(
-    <PropProvider props={PageProps} sessionProps={sessionProps} path={window.location.pathname}>
-      <ApolloProvider
-        client={initApollo({
-          baseUrl: 'https://mc.kristianjones.dev',
-          initialState: window.APP_STATE.APOLLO_STATE,
-          token: Cookies.get('token'),
-        })}
-      >
+    <ApolloProvider client={client}>
+      <PropProvider props={PageProps} sessionProps={sessionProps} client={client}>
         <App />
-      </ApolloProvider>
-    </PropProvider>,
+      </PropProvider>
+    </ApolloProvider>,
     document.getElementById('app'),
   );
 }

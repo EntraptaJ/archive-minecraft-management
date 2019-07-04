@@ -34,7 +34,7 @@ export class User extends Typegoose {
   password: string;
 
   @prop({ default: ['User'] })
-  role: Role[];
+  roles: Role[];
 
   @instanceMethod
   async generateToken(this: User, plainText: string): Promise<string> {

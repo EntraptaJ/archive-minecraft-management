@@ -8,11 +8,12 @@ import { renderToString } from 'react-dom/server';
 import { App } from './App';
 import { Document, AppState, Source } from './Document';
 import { readJSON } from 'fs-extra';
-import { PropProvider, Props, PathPropsObject } from './Components/PropsProvider';
+import { PropProvider, PathPropsObject, Props, resetProps } from './Prop';
 import { initApollo } from '~lib/initApollo';
 
 export async function uiServer(req: Request, res: Response) {
   await preloadAll();
+  resetProps();
   const manifestFile = 'dist/public/parcel-manifest.json';
   const cssFile = 'dist/CSS.json';
   const [parcelManifest, cssManifest] = await Promise.all([
@@ -20,7 +21,7 @@ export async function uiServer(req: Request, res: Response) {
     readJSON(cssFile) as Promise<{ [any: string]: string }>,
   ]);
 
-  const client = initApollo({ baseUrl: 'https://mc.kristianjones.dev', token: req.universalCookies.get('token') });
+  const client = initApollo({ baseUrl: 'http://localhost', token: req.universalCookies.get('token') });
 
   const sources: Source[] = [
     { type: 'script', src: parcelManifest['client.tsx'] },
@@ -39,24 +40,30 @@ export async function uiServer(req: Request, res: Response) {
         renderFunction: renderToString,
         tree: (
           <ServerLocation url={req.url}>
-            <PropProvider req={req} props={await Props} sessionProps={sessionProps} path={req.path}>
-              <ApolloProvider client={client}>
+            <ApolloProvider client={client}>
+              <PropProvider req={req} props={{}} sessionProps={sessionProps} client={client}>
                 <App />
-              </ApolloProvider>
-            </PropProvider>
+              </PropProvider>
+            </ApolloProvider>
           </ServerLocation>
         ),
       });
       sessionProps = [{ path: req.path, props: await Props }];
       STF = await Props;
-    } catch {
-      sessionProps = [{ path: req.path, props: await Props }];
-      STF = await Props;
+    } catch (error) {
+      if (isRedirect(error)) {
+        res.redirect(error.uri);
+        return
+      } else {
+        // sessionProps = [{ path: req.path, props: await Props }];
+        //STF = await Props;
+      }
+
     }
     html = renderToString(
       <ServerLocation url={req.url}>
         <Capture report={moduleName => modules.push(moduleName)}>
-          <PropProvider req={req} props={STF} sessionProps={sessionProps} path={req.path}>
+          <PropProvider req={req} props={STF} sessionProps={sessionProps} client={client}>
             <ApolloProvider client={client}>
               <App />
             </ApolloProvider>
@@ -67,6 +74,7 @@ export async function uiServer(req: Request, res: Response) {
   } catch (error) {
     if (isRedirect(error)) {
       res.redirect(error.uri);
+      return;
     } else {
     }
   }

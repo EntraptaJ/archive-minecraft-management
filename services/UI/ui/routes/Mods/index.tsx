@@ -18,11 +18,13 @@ const ModsPage = () => {
       <div style={TallMainStyle}>
         <div style={{ ...FormStyle, marginTop: '1.5em', marginBottom: '1.5em' }}>
           <Typography use='headline4'>Minecraft Server</Typography>
-          <Button onClick={() => window.location.href = '/mods.zip'} raised label='Download Mods Zip' />
+          <Button onClick={() => (window.location.href = '/mods.zip')} raised label='Download Mods Zip' />
           {data.listMods.length > 0 ? (
             <List>
               {data.listMods.map(mod => (
-                <ListItem onClick={() => window.location.href = `/downloadMod/${mod}`} >{mod}</ListItem>
+                <ListItem onClick={() => (window.location.href = `/downloadMod/${mod}`)} key={mod}>
+                  {mod}
+                </ListItem>
               ))}
             </List>
           ) : (
@@ -41,4 +43,4 @@ const ModsPage = () => {
     );
 };
 
-export default ModsPage
+export default ModsPage;

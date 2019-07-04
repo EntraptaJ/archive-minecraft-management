@@ -1,0 +1,10 @@
+{
+  getMenu {
+    path
+    label
+    children {
+      path
+      label
+    }
+  }
+}

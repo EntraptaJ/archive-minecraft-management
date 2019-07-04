@@ -24,6 +24,28 @@ const ModsRoute = Loadable({
   delay: 500,
 });
 
+const AdminRoute = Loadable({
+  loader: () => import('~routes/Admin/index'),
+  modules: ['routes/Admin/index.tsx'],
+  loading: Loader,
+  delay: 500,
+});
+
+const AdminChatRoute = Loadable({
+  loader: () => import('~Components/Admin/ChatBox/index'),
+  modules: ['Components/Admin/ChatBox/index.tsx'],
+  loading: Loader,
+  delay: 500
+})
+
+const AdminModRoute = Loadable({
+  loader: () => import('~routes/Admin/Mods'),
+  modules: ['routes/Admin/Mods.tsx'],
+  loading: Loader,
+  delay: 500
+})
+
+
 export interface ChildNavItem {
   label: string;
   path: string;
@@ -41,5 +63,6 @@ export type NavItem = ChildNavItem | ParentNavItem;
 export const routes: NavItem[] = [
   { label: 'Home', path: '/', component: HomeRoute },
   { label: 'Mods', path: '/mods', component: ModsRoute },
+  { label: 'Admin', path: '/Admin', options: [{ label: 'Main', path: '/', component: AdminRoute },{ label: 'Console', path: '/Console', component: AdminChatRoute }, { label: 'Mods Management', path: '/Mods', component: AdminModRoute }] },
   { label: 'Login', path: '/login', component: LoginRoute },
 ];

@@ -8,15 +8,18 @@ import jwt from 'koa-jwt';
 import KoaRouter from 'koa-router';
 import mongoose from 'mongoose';
 import tempy from 'tempy';
+import { verify } from 'jsonwebtoken';
 import { zip } from 'zip-a-folder';
 import send from 'koa-send';
 import { remove } from 'fs-extra';
 import { createRouteExplorer } from 'altair-koa-middleware';
 import { buildAPISchema } from './API';
-import { Context } from './API/Context';
+import { ContextType } from './API/Context';
 import { UserModel } from './Models/User';
 
 const port = 80;
+
+const MCPath = process.env.MCPath || '/minecraft';
 
 const startWeb = async () => {
   const schema = await buildAPISchema();
@@ -30,14 +33,26 @@ const startWeb = async () => {
   const apiServer = new ApolloServer({
     schema,
     introspection: true,
-    context: async ({ ctx: { state } }): Promise<Context> => ({
-      user: state.user ? await UserModel.findOne({ id: state.user.id }) : undefined,
-    }),
+    context: async ({ ctx, connection }): Promise<ContextType> => {
+      if (connection) {
+        if (!connection.context.authToken) return { user: undefined };
+        try {
+          const JWT = verify(connection.context.authToken, 'SECRET') as { id: string };
+          if (!JWT.id) return { user: undefined };
+          else return { user: await UserModel.findOne({ id: JWT.id }) };
+        } catch {
+          return { user: undefined };
+        }
+      }
+      if (ctx && ctx.state) {
+        return { user: ctx.state.user ? await UserModel.findOne({ id: ctx.state.user.id }) : undefined };
+      }
+    },
   });
 
   router.get('/mods.zip', async (ctx, next) => {
     const tmpFile = tempy.file({ extension: '.zip' });
-    await zip('/minecraft/mods', tmpFile);
+    await zip(`${MCPath}/mods`, tmpFile);
     await send(ctx, tmpFile, { root: '/' });
     await remove(tmpFile);
   });
@@ -45,7 +60,7 @@ const startWeb = async () => {
   router.get('/downloadMod/:modName', async (ctx, next) => {
     const modName = ctx.params.modName;
     if (!modName) next();
-    else await send(ctx, modName, { root: '/minecraft/mods' });
+    else await send(ctx, modName, { root: `${MCPath}/mods` });
   });
 
   createRouteExplorer({
@@ -58,17 +73,21 @@ const startWeb = async () => {
 
   app.use(router.routes()).use(router.allowedMethods());
 
+  const httpServer = app.listen(port);
   apiServer.applyMiddleware({ app });
+  apiServer.installSubscriptionHandlers(httpServer);
   return app;
 };
 
 const startAPI = async () => {
   console.log('Starting API');
-  const db = process.env.NODE_ENV === 'production' ? 'mc-db' : 'localhost';
-  await mongoose.connect(`mongodb://${db}:27017/DOCS`);
+  const db = process.env.DBHost || 'localhost';
+  await mongoose.connect(
+    `mongodb://${db}:27017/MC`,
+    { useNewUrlParser: true },
+  );
 
-  const [app] = await Promise.all([startWeb()]);
-  await app.listen(port);
+  await Promise.all([startWeb()]);
   console.log(`Server listening on port ${port}`);
 };
 

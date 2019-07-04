@@ -1,6 +1,6 @@
 import { User } from '../Models/User';
 import { InstanceType } from 'typegoose';
 
-export interface Context {
+export interface ContextType {
   user: InstanceType<User> | undefined;
 }

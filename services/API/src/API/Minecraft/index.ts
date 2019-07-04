@@ -2,26 +2,15 @@ import { Resolver, Query, Mutation } from 'type-graphql'
 import klaw from 'klaw';
 import pEvent from 'p-event';
 import path from 'path';
-import Docker from 'dockerode';
 import { zip } from 'zip-a-folder'
 import MCQuery from 'minecraft-query'
 import { MinecraftStatus } from './ServerStatus'
 
-const findContainer = async () => {
-  let docker = new Docker({
-    socketPath: '/var/run/docker.sock',
-    version: 'v1.39'
-  });
-  let opts = {
-    filters: `{"label": ["com.docker.compose.service=test-minecraft"]}`
-  };
-  const conts = await docker.listContainers(opts);
-  console.log(conts)
-}
+const MCPath = process.env.MCPath || '/minecraft'
 
 const getMods = async () => {
     // Reccursively walk the /zones folder
-    const walk = klaw('/minecraft/mods');
+    const walk = klaw(`${MCPath}/mods`);
 
     // Convert the walk into an AsyncIterableIterator
     const files: AsyncIterableIterator<klaw.Item> = pEvent.iterator(
@@ -63,7 +52,7 @@ export default class MinecraftResolver {
 
   @Mutation(returns => Boolean)
   public async generateModsZip() {
-    await zip('/minecraft/mods', 'mods.zip')
+    await zip(`${MCPath}/mods`, 'mods.zip')
     return true;
   }
 

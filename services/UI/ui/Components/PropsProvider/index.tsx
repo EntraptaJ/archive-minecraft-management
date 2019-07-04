@@ -1,28 +1,20 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react'
 import { Request } from 'express'
 import { globalHistory } from '@reach/router'
+import { Props, setProps } from '../../Prop'
 
 export interface PathPropsObject {
   path: string
   props: any
 }
 
-export let Props: Promise<any> | undefined
-
 export type getProp = (req?: import('express').Request) => Promise<any>
 
-export const setProps = (props: Promise<any> | any) => {
-  Props = props
-}
-
-export const resetProps = () => {
-  Props = undefined
-}
 
 interface PropContextType {
   props: any
   sessionProps: PathPropsObject[]
-  setSTF: (prop: (req?: Request) => Promise<any>, id: number) => void
+  setSTF: (prop: (req?: Request) => Promise<any>) => void
   req?: Request
 }
 
@@ -62,7 +54,7 @@ export const PropProvider = ({ req, children, props, sessionProps, path }: PropP
       sessionProps.push({ path: c.location.pathname, props: (await Props) || {} })
       setProp((await Props) || {})
     }
-    Props = undefined
+    
   })
 
   return (
@@ -70,14 +62,8 @@ export const PropProvider = ({ req, children, props, sessionProps, path }: PropP
       value={{
         sessionProps: sessionProps,
         props: prop,
-        setSTF: async (prop, id) => {
+        setSTF: (prop) => {
           console.log('TEST')
-          /**  const oldProps = sessionProps.find(
-            ({ path: pth }) => pth === (req ? req.path : globalHistory.location.pathname),
-          )
-
-          if (oldProps) Props = oldProps.props */
-          Props = prop(req)
         },
         req,
       }}
@@ -87,14 +73,8 @@ export const PropProvider = ({ req, children, props, sessionProps, path }: PropP
   )
 }
 
-let currentPageId = 0
-
-export const resetPageID = () => {
-  currentPageId = 0
-}
-
 export const useProps = (props: (req?: Request) => Promise<any>) => {
-  const [id] = useState(currentPageId++)
   const { setSTF } = useContext(PropContext)
-  setSTF(props, id)
+  setSTF(props)
+  setProps(props)
 }

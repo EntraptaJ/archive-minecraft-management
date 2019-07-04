@@ -1,0 +1,3 @@
+mutation uploadMod($file: Upload!) {
+  uploadMod(file: $file)
+}
