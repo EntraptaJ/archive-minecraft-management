@@ -4,6 +4,7 @@ COPY package.json package-lock.json tsconfig.json tsconfig-server.json .babelrc 
 COPY ./src/ ./src/
 COPY ./ui/ ./ui/
 COPY ./bin/ ./bin/
+COPY ./public/ ./public/
 COPY ./@types/ ./@types/
 RUN npm install && NODE_ENV=production npm run build
 
