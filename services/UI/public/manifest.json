@@ -1,0 +1,31 @@
+{
+  "short_name": "MC Manage",
+  "name": "MC Manager",
+  "categories": ["utilities"],
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#eee",
+  "theme_color": "#6200ee",
+  "share_target": {
+    "action": "share",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "name",
+      "text": "description",
+      "url": "link"
+    }
+  }
+}
