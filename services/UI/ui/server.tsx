@@ -21,7 +21,7 @@ export async function uiServer(req: Request, res: Response) {
     readJSON(cssFile) as Promise<{ [any: string]: string }>,
   ]);
 
-  const client = initApollo({ baseUrl: 'http://localhost', token: req.universalCookies.get('token') });
+  const client = initApollo({ baseUrl: process.env.APIURL as string, token: req.universalCookies.get('token') });
 
   const sources: Source[] = [
     { type: 'script', src: parcelManifest['client.tsx'] },

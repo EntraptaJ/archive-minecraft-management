@@ -16,7 +16,7 @@ async function render(renderFunction: Renderer, App: typeof AppComponent) {
   let PageProps = window.APP_STATE.PROPS;
   sessionProps = window.APP_STATE.SESSIONPROPS;
   const client = initApollo({
-    baseUrl: 'http://localhost',
+    baseUrl: '',
     initialState: window.APP_STATE.APOLLO_STATE,
     token: Cookies.get('token'),
   });
