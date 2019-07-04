@@ -9,6 +9,8 @@ export async function build(watch: boolean = false) {
   await remove('dist');
   await mkdir('dist');
 
+  await copy('public', 'dist/public')
+
   await copy('package.json', 'dist/package.json');
   await copy('package-lock.json', 'dist/package-lock.json');
 
