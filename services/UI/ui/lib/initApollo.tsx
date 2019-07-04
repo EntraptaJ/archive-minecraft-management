@@ -23,7 +23,7 @@ export const initApollo = ({ baseUrl, initialState, token }: InitClientParams) =
 
   // Create a WebSocket link:
   const wsLink = new WebSocketLink({
-    uri: `ws://${baseUrl}/graphql`,
+    uri: `wss://${baseUrl.replace('https://', 'wss://')}graphql`,
     options: {
       lazy: true,
       reconnect: true,
