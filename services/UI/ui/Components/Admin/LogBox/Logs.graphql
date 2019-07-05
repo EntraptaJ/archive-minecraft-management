@@ -1,0 +1,3 @@
+query getLogs($lines: Int) {
+  getLogs(lines: $lines)
+}
