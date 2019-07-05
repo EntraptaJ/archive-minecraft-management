@@ -6,7 +6,7 @@ import '@rmwc/list/collapsible-list.css';
 import { navigate } from '@reach/router';
 import { Drawer, DrawerContent } from '@rmwc/drawer';
 import { List, ListItem, ListProps } from '@rmwc/list';
-import { TopAppBar, TopAppBarNavigationIcon, TopAppBarRow, TopAppBarSection, TopAppBarTitle } from '@rmwc/top-app-bar';
+import { TopAppBar, TopAppBarNavigationIcon, TopAppBarRow, TopAppBarSection, TopAppBarTitle, TopAppBarFixedAdjust } from '@rmwc/top-app-bar';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import NAVITEMSGQL from './NavItems.graphql';
 import { handleNavItems } from './NavItem/handleItems';
@@ -37,15 +37,16 @@ export const NavBar: NavBarType = ({ ...props }) => {
 
   return (
     <>
-      <TopAppBar>
+      <TopAppBar fixed className="app__top-app-bar">
         <TopAppBarRow>
           <TopAppBarSection>
             <TopAppBarNavigationIcon icon='menu' onClick={() => setOpen(!open)} />
-            <TopAppBarTitle onClick={() => navigate('/')}>Minecraft Management</TopAppBarTitle>
+            <TopAppBarTitle onClick={() => navigate('/')}>Minecraft</TopAppBarTitle>
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
-      <Drawer open={open} dismissible={!isMobileState} modal={isMobileState} onClose={() => setOpen(false)}>
+      <TopAppBarFixedAdjust />
+      <Drawer id="main-nav" open={open} dismissible={!isMobileState} modal={isMobileState} onClose={() => setOpen(false)}>
         <DrawerContent>
           <List {...props}>
             {loading ? <ListItem>Loading</ListItem> : data ? handleNavItems(data.getMenu) : <ListItem>Error</ListItem>}

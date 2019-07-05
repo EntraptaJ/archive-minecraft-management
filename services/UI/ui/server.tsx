@@ -10,6 +10,9 @@ import { Document, AppState, Source } from './Document';
 import { readJSON } from 'fs-extra';
 import { PropProvider, PathPropsObject, Props, resetProps } from './Prop';
 import { initApollo } from '~lib/initApollo';
+import { Config, ConfigProvider } from '~Components/ConfigProvider';
+
+const config: Config = { baseUrl: process.env.APIURL as string };
 
 export async function uiServer(req: Request, res: Response) {
   await preloadAll();
@@ -40,11 +43,13 @@ export async function uiServer(req: Request, res: Response) {
         renderFunction: renderToString,
         tree: (
           <ServerLocation url={req.url}>
-            <ApolloProvider client={client}>
-              <PropProvider req={req} props={{}} sessionProps={sessionProps} client={client}>
-                <App />
-              </PropProvider>
-            </ApolloProvider>
+            <ConfigProvider {...config}>
+              <ApolloProvider client={client}>
+                <PropProvider req={req} props={{}} sessionProps={sessionProps} client={client}>
+                  <App />
+                </PropProvider>
+              </ApolloProvider>
+            </ConfigProvider>
           </ServerLocation>
         ),
       });
@@ -53,12 +58,11 @@ export async function uiServer(req: Request, res: Response) {
     } catch (error) {
       if (isRedirect(error)) {
         res.redirect(error.uri);
-        return
+        return;
       } else {
         // sessionProps = [{ path: req.path, props: await Props }];
         //STF = await Props;
       }
-
     }
     html = renderToString(
       <ServerLocation url={req.url}>
@@ -85,7 +89,12 @@ export async function uiServer(req: Request, res: Response) {
       .map(([modulePath, file]) => sources.unshift({ src: file, type: file.includes('.js') ? 'script' : 'style' })),
   );
 
-  const APP_STATE: AppState = { SESSIONPROPS: sessionProps, APOLLO_STATE: client.cache.extract(), PROPS: STF || {} };
+  const APP_STATE: AppState = {
+    SESSIONPROPS: sessionProps,
+    APOLLO_STATE: client.cache.extract(),
+    PROPS: STF || {},
+    CONFIG: config,
+  };
 
   const document = renderToString(<Document html={html} state={APP_STATE} sources={sources} css={getStyles()} />);
 

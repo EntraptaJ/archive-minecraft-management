@@ -1,0 +1,3 @@
+{
+  getConfig(config: "tconstruct.cfg")
+}

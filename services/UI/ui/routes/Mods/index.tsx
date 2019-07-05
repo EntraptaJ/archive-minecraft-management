@@ -6,16 +6,18 @@ import { Button } from '@rmwc/button';
 import MODSGQL from './Mods.graphql';
 import '@material/list/dist/mdc.list.min.css';
 import '@material/button/dist/mdc.button.min.css';
-import { MainStyle, TallMainStyle } from '~lib/styles';
+import { MainStyle } from '~lib/styles';
 import { FormStyle } from '~routes/Home/Styles';
 import { Typography } from '@rmwc/typography';
+import { LoadingProgress } from '~Components/Loading';
+import { Layout } from '~Components/Layout';
 
 const ModsPage = () => {
   const { data, loading } = useQuery<{ listMods: string[] }>(MODSGQL);
-  if (loading) return <div style={MainStyle}>Loading</div>;
+  if (loading) return <LoadingProgress />;
   else if (data && data.listMods)
     return (
-      <div style={TallMainStyle}>
+      <Layout>
         <div style={{ ...FormStyle, marginTop: '1.5em', marginBottom: '1.5em' }}>
           <Typography use='headline4'>Minecraft Server</Typography>
           <Button onClick={() => (window.location.href = '/mods.zip')} raised label='Download Mods Zip' />
@@ -31,15 +33,15 @@ const ModsPage = () => {
             <Typography use='body1'>No mods are installed</Typography>
           )}
         </div>
-      </div>
+      </Layout>
     );
   else
     return (
-      <div style={MainStyle}>
+      <Layout>
         <div style={FormStyle}>
           <Typography use='headline4'>Error</Typography>
         </div>
-      </div>
+      </Layout>
     );
 };
 

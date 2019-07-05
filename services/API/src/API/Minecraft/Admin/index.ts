@@ -1,5 +1,5 @@
 // API/src/API/Minecraft/Admin/index.ts
-import { Resolver, Authorized, Root, Mutation, Arg, PubSubEngine, Subscription, Field, ObjectType } from 'type-graphql';
+import { Resolver, Authorized, Root, Mutation, Arg, PubSubEngine, Subscription, Field, ObjectType, Query, Int } from 'type-graphql';
 import { GraphQLUpload } from 'graphql-upload';
 import { pubSub } from './RCONPubSub';
 import fs from 'fs';
@@ -70,4 +70,12 @@ export default class MinecraftAdminResolver {
     await cont.start()
     return true;
   }
+
+  @Authorized(['Admin'])
+  @Query(returns => String)
+  public async getLogs(@Arg('lines', type => Int, { defaultValue: 500}) lines: number ) {
+    const cont = await findContainer()
+    return cont.logs({ follow: false, tail: lines, stdout: true });
+  }
+
 }

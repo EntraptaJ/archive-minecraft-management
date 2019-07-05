@@ -45,7 +45,7 @@ export const AdminModManagement = () => {
   const { data, loading } = useQuery<{ listMods: string[] }>(MODSGQL);
   const [uploadMod] = useMutation<{}, { file: any }>(UPLOADMODGQL);
   return (
-    <List style={{ ...FormStyle, margin: '0 1em 0 1em' }}>
+    <List style={{ ...FormStyle, margin: '0 1em 0 1em', marginTop: '1em', marginBottom: '1em' }}>
       {loading ? (
         <ListItem>Loading</ListItem>
       ) : data ? (

@@ -13,6 +13,7 @@ import '@material/floating-label/dist/mdc.floating-label.css';
 import '@material/notched-outline/dist/mdc.notched-outline.css';
 import '@material/line-ripple/dist/mdc.line-ripple.css';
 import { TextField } from '@rmwc/textfield';
+import { AdminLayout } from '~Components/Admin/Layout';
 
 interface MessageItemProps {
   text: string;
@@ -36,13 +37,13 @@ const ChatRoute = () => {
   };
 
   return (
-    <div style={MainStyle}>
+    <AdminLayout>
       <div style={{ ...FormStyle, maxWidth: '400px' }}>
         <Typography use='headline4'>Minecraft Server</Typography>
         {loading ? (
           <Typography use='body1'>Loading</Typography>
         ) : (
-          data && test.map((string, index) => <MessageItem key={index} text={string} />)
+          data && <div style={{ overflowY: 'scroll' }}>{test.map((string, index) => <MessageItem key={index} text={string} />)}</div>
         )}
         <TextField
           label='Send Command'
@@ -52,7 +53,7 @@ const ChatRoute = () => {
           value={text}
         />
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

@@ -7,7 +7,7 @@ import { NavItem } from '.';
 export const handleNavItems = (items: NavItemType[]): JSX.Element[] =>
   items.map(item =>
     item.children ? (
-      <CollapsibleList key={item.label} handle={<SimpleListItem text={item.label} />}>
+      <CollapsibleList key={item.label} handle={<SimpleListItem text={item.label} metaIcon='chevron_right' />}>
         {handleNavItems(item.children)}
       </CollapsibleList>
     ) : (

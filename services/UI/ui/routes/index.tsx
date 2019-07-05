@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, CSSProperties } from 'react';
+import React, { ReactNode } from 'react';
 import { Router } from '@reach/router';
 import { routes, NavItem } from '~Components/Routes';
 
@@ -16,9 +16,6 @@ const HandleRoutes = (routes: NavItem[], parent?: string): ReactNode => {
 };
 
 export const Routes = () => {
-  const MainStyle: CSSProperties = {
-    height: '100%'
-  };
 
-  return <Router style={MainStyle}>{HandleRoutes(routes)}</Router>;
+  return <Router style={{ minHeight: '100%', display: 'flex', flexDirection: 'column'}}>{HandleRoutes(routes)}</Router>;
 };

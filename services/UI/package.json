@@ -28,6 +28,7 @@
     "@rmwc/icon": "^5.5.2",
     "@rmwc/select": "^5.5.2",
     "@rmwc/snackbar": "^5.5.2",
+    "@rmwc/switch": "^5.5.2",
     "@rmwc/tabs": "^5.5.2",
     "@rmwc/textfield": "^5.5.2",
     "@rmwc/top-app-bar": "^5.5.2",

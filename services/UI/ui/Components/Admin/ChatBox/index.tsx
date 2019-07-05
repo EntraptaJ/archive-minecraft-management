@@ -11,6 +11,7 @@ import '@material/floating-label/dist/mdc.floating-label.min.css';
 import '@material/notched-outline/dist/mdc.notched-outline.min.css';
 import '@material/line-ripple/dist/mdc.line-ripple.min.css';
 import { ChatItem } from './ChatItem';
+import { AdminLayout } from '../Layout';
 
 export const AdminChatBox = () => {
   const [text, setText] = useState<string>('');
@@ -22,27 +23,35 @@ export const AdminChatBox = () => {
   const handleKeyPress = async (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       await sendCommand({ variables: { command: text } });
-      setText('')
+      setText('');
     }
   };
 
   return (
-    <div style={{ ...FormStyle, maxWidth: '550px' }}>
-      <Typography use='headline4'>Minecraft Server Console</Typography>
-      {loading ? (
-        <Typography use='body1'>Loading</Typography>
-      ) : (
-        data && history.map((string, index) => <ChatItem key={index} message={string} />)
-      )}
-      <TextField
-        label='Send Command'
-        outlined
-        style={{ marginTop: '1em', width: '100%' }}
-        onKeyPress={handleKeyPress}
-        onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => setText(target.value)}
-        value={text}
-      />
-    </div>
+    <AdminLayout>
+      <div style={{ ...FormStyle, maxWidth: '550px' }}>
+        <Typography use='headline4'>Minecraft Server Console</Typography>
+        {loading ? (
+          <Typography use='body1'>Loading</Typography>
+        ) : (
+          data && (
+            <div style={{ overflowY: 'scroll' }}>
+              {history.map((string, index) => (
+                <ChatItem key={index} message={string} />
+              ))}
+            </div>
+          )
+        )}
+        <TextField
+          label='Send Command'
+          outlined
+          style={{ marginTop: '1em', width: '100%' }}
+          onKeyPress={handleKeyPress}
+          onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => setText(target.value)}
+          value={text}
+        />
+      </div>
+    </AdminLayout>
   );
 };
 

@@ -12,8 +12,7 @@ type AdminPageType = FunctionComponent<AdminPageProps>;
 
 const AdminPage: AdminPageType = () => {
   return (
-    <AdminLayout tall={true}>
-      <TopAppBarFixedAdjust />
+    <AdminLayout>
       <AdminModManagement />
     </AdminLayout>
   );
