@@ -6,7 +6,6 @@ import { Button } from '@rmwc/button';
 import MODSGQL from './Mods.graphql';
 import '@material/list/dist/mdc.list.min.css';
 import '@material/button/dist/mdc.button.min.css';
-import { MainStyle } from '~lib/styles';
 import { FormStyle } from '~routes/Home/Styles';
 import { Typography } from '@rmwc/typography';
 import { LoadingProgress } from '~Components/Loading';
