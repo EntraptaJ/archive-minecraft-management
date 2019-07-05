@@ -21,6 +21,7 @@ const AdminMenu: MenuItem[] = [
     children: [
       { label: 'Main', path: '/Admin' },
       { label: 'Server Console', path: '/Admin/Console' },
+      { label: 'Server Logs', path: '/Admin/Logs' },
       { label: 'Mod Management', path: '/Admin/Mods' },
       { label: 'Configure Mods', path: '/Admin/ConfigMods' },
     ],
