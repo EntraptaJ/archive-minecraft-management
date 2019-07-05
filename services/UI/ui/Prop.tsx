@@ -49,8 +49,7 @@ const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const PropProvider = (prop: PropProviderProps) => {
   const { req, children, sessionProps, client } = prop;
-  let { props } = prop
-
+  const [props, setProps] = useState(prop.props)
   const useProps = (newProp: getProp) => {
     const oldProps = sessionProps.find(({ path: pth }) => pth === (req ? req.path : globalHistory.location.pathname));
 
@@ -61,12 +60,12 @@ export const PropProvider = (prop: PropProviderProps) => {
   globalHistory.listen(async (c) => {
     const oldProps = sessionProps.find(({ path: pth }) => pth === c.location.pathname)
 
-    if (oldProps) props = oldProps.props
+    if (oldProps) setProps(oldProps.props)
     else {
       await timeout(50)
       if (typeof (await Props) === 'undefined') return
       sessionProps.push({ path: c.location.pathname, props: (await Props) || {} })
-      props = (await Props) || {}
+      setProps((await Props) || {})
     }
     
   })
