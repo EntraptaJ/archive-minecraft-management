@@ -48,7 +48,8 @@ interface PropProviderProps {
 const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const PropProvider = (prop: PropProviderProps) => {
-  const { req, children, props, sessionProps, client } = prop;
+  const { req, children, sessionProps, client } = prop;
+  let { props } = prop
 
   const useProps = (newProp: getProp) => {
     const oldProps = sessionProps.find(({ path: pth }) => pth === (req ? req.path : globalHistory.location.pathname));
@@ -56,6 +57,19 @@ export const PropProvider = (prop: PropProviderProps) => {
     if (oldProps) Props = oldProps.props;
     else Props = newProp(req, client);
   };
+
+  globalHistory.listen(async (c) => {
+    const oldProps = sessionProps.find(({ path: pth }) => pth === c.location.pathname)
+
+    if (oldProps) props = oldProps.props
+    else {
+      await timeout(50)
+      if (typeof (await Props) === 'undefined') return
+      sessionProps.push({ path: c.location.pathname, props: (await Props) || {} })
+      props = (await Props) || {}
+    }
+    
+  })
 
   return (
     <PropContext.Provider
