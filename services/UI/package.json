@@ -85,6 +85,7 @@
     "@types/react-calendar-timeline": "^0.16.1",
     "@types/react-dom": "^16.8.4",
     "@types/react-loadable": "^5.5.1",
+    "@types/workbox-sw": "^4.2.0",
     "@types/ws": "^6.0.1",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",

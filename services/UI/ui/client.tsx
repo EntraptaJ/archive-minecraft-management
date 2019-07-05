@@ -10,6 +10,13 @@ import { App as AppComponent } from '~App';
 import { initApollo } from '~lib/initApollo';
 import { ConfigProvider } from '~Components/ConfigProvider';
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async function() {
+    const worker = await navigator.serviceWorker.register('/service-worker.ts', { scope: '/' })
+    console.log('SW registered: ', worker)
+  })
+}
+
 async function render(renderFunction: Renderer, App: typeof AppComponent) {
   await preloadReady()
   let sessionProps: PathPropsObject[] = [];
