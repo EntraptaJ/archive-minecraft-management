@@ -60,7 +60,7 @@ export const PropProvider = (prop: PropProviderProps) => {
   globalHistory.listen(async (c) => {
     const oldProps = sessionProps.find(({ path: pth }) => pth === c.location.pathname)
 
-    if (oldProps) setProps(oldProps.props)
+    if (oldProps) setProps(oldProps.props || {})
     else {
       await timeout(50)
       if (typeof (await Props) === 'undefined') return
