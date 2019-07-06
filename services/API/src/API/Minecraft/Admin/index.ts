@@ -5,10 +5,7 @@ import {
   Root,
   Mutation,
   Arg,
-  PubSubEngine,
   Subscription,
-  Field,
-  ObjectType,
   Query,
   Int,
 } from 'type-graphql';
@@ -75,10 +72,11 @@ export default class MinecraftAdminResolver {
     const cont = await findContainer();
     const message = 'Minecraft Server restarting in 5 minutes';
     const rawMessage = { text: message, color: 'red' }
-    // @ts-ignore
-    const channel = discordClient.channels.find(test => test.type === 'text' && test.name === 'minecraft-gang') as TextChannel;
-    console.log(channel)
-    // await channel.send(message);
+    if (discordClient) {
+      // @ts-ignore
+      const channel = discordClient.channels.find(test => test.type === 'text' && test.name === 'minecraft-gang') as TextChannel;
+      await channel.send(message);
+    }
     if (mcRCON) mcRCON.send(`/tellraw @p ${JSON.stringify(rawMessage)}`);
     setTimeout(() => {
       cont.restart();
