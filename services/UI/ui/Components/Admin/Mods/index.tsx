@@ -7,7 +7,7 @@ import '@material/menu/dist/mdc.menu.min.css';
 import '@material/menu-surface/dist/mdc.menu-surface.min.css';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FormStyle } from '~lib/styles';
-import { MenuSurfaceAnchor, MenuSurface, Menu, MenuItem } from '@rmwc/menu';
+import { MenuSurfaceAnchor, Menu, MenuItem } from '@rmwc/menu';
 import './style.css';
 import UPLOADMODGQL from './UploadMod.graphql';
 

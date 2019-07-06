@@ -1,14 +1,5 @@
 // API/src/API/Minecraft/Admin/index.ts
-import {
-  Resolver,
-  Authorized,
-  Root,
-  Mutation,
-  Arg,
-  Subscription,
-  Query,
-  Int,
-} from 'type-graphql';
+import { Resolver, Authorized, Root, Mutation, Arg, Subscription, Query, Int } from 'type-graphql';
 import { GraphQLUpload } from 'graphql-upload';
 import { pubSub } from './RCONPubSub';
 import fs from 'fs';
@@ -17,6 +8,7 @@ import { FileInput } from './FileType';
 import { findContainer } from '../../../Utils/Docker';
 import { discordClient } from '../../../Discord';
 import { mcRCON } from '../../../RCON';
+import { TextChannel } from 'discord.js';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -71,11 +63,13 @@ export default class MinecraftAdminResolver {
   public async restartServer() {
     const cont = await findContainer();
     const message = 'Minecraft Server restarting in 5 minutes';
-    const rawMessage = { text: message, color: 'red' }
+    const rawMessage = { text: message, color: 'red' };
     if (discordClient) {
-      // @ts-ignore
-      const channel = discordClient.channels.find(test => test.type === 'text' && test.name === 'minecraft-gang') as TextChannel;
-      await channel.send(message);
+      const channel = discordClient.channels.find(
+        // @ts-ignore
+        test => test.type === 'text' && test.name === 'minecraft-gang',
+      ) as TextChannel;
+      if (channel) await channel.send(message);
     }
     if (mcRCON) mcRCON.send(`/tellraw @p ${JSON.stringify(rawMessage)}`);
     setTimeout(() => {

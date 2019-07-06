@@ -11,7 +11,7 @@ interface LayoutProps {
 
 type LayoutType = FunctionComponent<LayoutProps>;
 
-export const Layout: LayoutType = ({ children}) => {
+export const Layout: LayoutType = ({ children }) => {
   return (
     <>
       <NavBar />

@@ -1,34 +1,34 @@
-import { ObjectType, Field, Int } from 'type-graphql'
+import { ObjectType, Field, Int } from 'type-graphql';
 
 @ObjectType()
 export class MinecraftStatus {
   @Field()
-  motd: string
+  motd: string;
 
   @Field()
-  gametype: string
+  gametype: string;
 
   @Field()
-  game_id: string
+  game_id: string;
 
   @Field()
-  version: string
+  version: string;
 
   @Field()
-  plugins: string
+  plugins: string;
 
   @Field()
-  map: string
+  map: string;
 
   @Field(type => Int)
-  online_players: number
+  online_players: number;
 
   @Field(type => Int)
-  max_players: number
+  max_players: number;
 
   @Field()
-  port: string
+  port: string;
 
   @Field(type => [String])
-  players: string[]
+  players: string[];
 }

@@ -31,7 +31,7 @@ const getMods = async () => {
     if (fileName.includes('.jar')) mods.push(fileName);
   }
 
-  return mods.sort().reverse();
+  return mods.sort();
 };
 @Resolver()
 export default class MinecraftResolver {

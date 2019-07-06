@@ -3,9 +3,7 @@ import { PubSubEngine } from 'type-graphql';
 import { EventEmitter } from 'events';
 import { mcRCON } from '../../../RCON';
 
-
 let id = 0;
-
 
 export class RCONPubSub extends PubSubEngine {
   public ee = new EventEmitter();
@@ -21,6 +19,5 @@ export class RCONPubSub extends PubSubEngine {
   }
   public async unsubscribe(subId: number) {}
 }
-
 
 export const pubSub = new RCONPubSub();

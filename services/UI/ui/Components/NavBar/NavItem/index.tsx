@@ -12,18 +12,18 @@ interface NavItemProps {
 
 const findRoute = (path: string) => {
   let routeItem: RouteItem | undefined;
-  routes.map((route) => {
-    if ('options' in route) routeItem = route.options.find(route2 => `${route.path}${route2.path}` === path)
+  routes.map(route => {
+    if ('options' in route) routeItem = route.options.find(route2 => `${route.path}${route2.path}` === path);
     if (route.path === path) routeItem = route;
-  })
-  return routeItem
-}
+  });
+  return routeItem;
+};
 
 type NavItemType = FunctionComponent<NavItemProps>;
 
 export const NavItem: NavItemType = ({ label, path }) => {
   const [preloaded, setPreloaded] = useState<boolean>(false);
-  const RouteItem = findRoute(path)
+  const RouteItem = findRoute(path);
   if (!RouteItem) return <ListItem onClick={() => navigate(path)}>{label}</ListItem>;
   return (
     <ListItem

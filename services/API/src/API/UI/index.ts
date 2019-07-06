@@ -9,7 +9,11 @@ interface Menus {
   menu: MenuItem[];
 }
 
-const MainMenu: MenuItem[] = [{ label: 'Home', path: '/' }, { label: 'Login', path: '/login' }];
+const MainMenu: MenuItem[] = [
+  { label: 'Home', path: '/' },
+  { label: 'Login', path: '/login' },
+  { label: 'Register', path: '/register' },
+];
 
 const UserMenu: MenuItem[] = [{ label: 'Home', path: '/' }, { label: 'Mods', path: '/mods' }];
 

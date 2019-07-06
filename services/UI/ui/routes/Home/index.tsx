@@ -5,7 +5,7 @@ import { RouteComponentProps, navigate } from '@reach/router';
 import '@material/typography/dist/mdc.typography.min.css';
 import '@material/button/dist/mdc.button.min.css';
 import '@material/list/dist/mdc.list.min.css';
-import { MainStyle, FormStyle } from '~lib/styles';
+import { FormStyle } from '~lib/styles';
 import MCSTATUSGQL from './MCStatus.graphql';
 import { List, ListItem } from '@rmwc/list';
 import { useQuery } from '@apollo/react-hooks';

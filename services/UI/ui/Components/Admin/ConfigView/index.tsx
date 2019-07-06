@@ -18,21 +18,21 @@ interface FieldBooleanType {
   type: 'Boolean';
   value: boolean;
   label: string;
-  comment?: string
+  comment?: string;
 }
 
 interface FieldStringType {
   type: 'String';
   value: string;
   label: string;
-  comment?: string
+  comment?: string;
 }
 
 interface FieldNumbertype {
   type: 'Number';
   value: number;
   label: string;
-  comment?: string
+  comment?: string;
 }
 
 type FieldArrayType = FieldBooleanType | FieldStringType | FieldNumbertype;

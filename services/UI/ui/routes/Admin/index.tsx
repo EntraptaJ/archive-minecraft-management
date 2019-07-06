@@ -1,5 +1,5 @@
 // UI/ui/routes/Admin/index.tsx
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { AdminLayout } from '~Components/Admin/Layout';
 import { Typography } from '@rmwc/typography';
@@ -25,7 +25,7 @@ interface getStatus {
 
 const AdminPage: AdminPageType = () => {
   const [restartServer, { loading: restartLoading }] = useMutation(RESTARTGQL);
-  const [startServer, { loading: startLoading }] = useMutation(RESTARTGQL);
+  const [startServer, { loading: startLoading }] = useMutation(STARTGQL);
   const { data } = useQuery<{ getStatus: getStatus }>(STATUSGQL);
   if (!data || typeof data.getStatus === 'undefined')
     return (

@@ -1,5 +1,5 @@
 // UI/ui/lib/styles.tsx
-import { CSSProperties } from 'react'
+import { CSSProperties } from 'react';
 
 export const ContainerStyle: CSSProperties = {
   background: '#fafafa',
@@ -29,7 +29,6 @@ export const MainStyle: CSSProperties = {
   willChange: 'margin-left',
   height: 'inherit',
 };
-
 
 export const FormStyle: CSSProperties = {
   background: '#fafafa',

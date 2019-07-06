@@ -8,8 +8,14 @@ const HomeRoute = Loadable({
 });
 
 const LoginRoute = Loadable({
-  loader: () => import('~routes/Authenication'),
-  modules: ['routes/Authenication/index.tsx'],
+  loader: () => import('~routes/Authenication/Login'),
+  modules: ['routes/Authenication/Login/index.tsx'],
+  loading: LoadingProgress,
+});
+
+const RegisterRoute = Loadable({
+  loader: () => import('~routes/Authenication/Register'),
+  modules: ['routes/Authenication/Login/index.tsx'],
   loading: LoadingProgress,
 });
 
@@ -78,4 +84,5 @@ export const routes: NavItem[] = [
     ],
   },
   { label: 'Login', path: '/login', component: LoginRoute },
+  { label: 'Register', path: '/register', component: RegisterRoute },
 ];

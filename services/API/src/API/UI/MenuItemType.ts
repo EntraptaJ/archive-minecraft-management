@@ -1,14 +1,14 @@
 // API/src/API/UI/MenuItemType.ts
-import { ObjectType, Field } from 'type-graphql'
+import { ObjectType, Field } from 'type-graphql';
 
 @ObjectType()
 export class MenuItem {
   @Field()
-  label: string
+  label: string;
 
   @Field()
-  path: string
+  path: string;
 
-  @Field(type => [MenuItem], { nullable: 'itemsAndList'})
-  children?: MenuItem[]
+  @Field(type => [MenuItem], { nullable: 'itemsAndList' })
+  children?: MenuItem[];
 }

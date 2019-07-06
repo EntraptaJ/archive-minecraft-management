@@ -95,7 +95,7 @@ const startAPI = async () => {
     `mongodb://${db}:27017/MC`,
     { useNewUrlParser: true },
   );
-  
+
   const cont = await findContainer();
   const contStatus = await cont.inspect();
   // @ts-ignore

@@ -1,5 +1,5 @@
 import { ApolloProvider } from '@apollo/react-hooks';
-import { preloadReady } from 'react-loadable'
+import { preloadReady } from 'react-loadable';
 import React from 'react';
 import { PathPropsObject, PropProvider } from '~Prop';
 import { Renderer, hydrate } from 'react-dom';
@@ -12,13 +12,13 @@ import { ConfigProvider } from '~Components/ConfigProvider';
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
-    const worker = await navigator.serviceWorker.register('/service-worker.ts', { scope: '/' })
-    console.log('SW registered: ', worker)
-  })
+    const worker = await navigator.serviceWorker.register('/service-worker.ts', { scope: '/' });
+    console.log('SW registered: ', worker);
+  });
 }
 
 async function render(renderFunction: Renderer, App: typeof AppComponent) {
-  await preloadReady()
+  await preloadReady();
   let sessionProps: PathPropsObject[] = [];
   const StyleElement = document.getElementById('styles');
   if (StyleElement) setStylesTarget(StyleElement);

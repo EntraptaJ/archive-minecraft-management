@@ -3,20 +3,10 @@ import { AuthChecker } from 'type-graphql';
 import { ContextType } from '../Context';
 
 export const authChecker: AuthChecker<ContextType> = ({ root, args, context: { user }, info }, roles) => {
-  if (roles.length === 0) {
-    // if `@Authorized()`, check only is user exist
-    return user !== undefined;
-  }
-  // there are some roles defined now
+  if (roles.length === 0) return user !== undefined;
 
-  if (!user) {
-    // and if no user, restrict access
-    return false;
-  }
-  if (user.roles.some(role => roles.includes(role))) {
-    // grant access if the roles overlap
-    return true;
-  }
+  if (!user) return false;
+  if (user.roles.some(role => roles.includes(role))) return true;
 
   // no roles matched, restrict access
   return false;

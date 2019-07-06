@@ -34,7 +34,6 @@ export default class AuthResolver {
   @Authorized()
   @Query(returns => Boolean)
   async isAdmin(@Ctx() { user }: ContextType): Promise<boolean> {
-    return user.roles.includes('Admin')
-
+    return user.roles.includes('Admin');
   }
 }

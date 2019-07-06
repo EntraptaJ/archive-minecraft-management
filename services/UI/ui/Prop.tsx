@@ -11,10 +11,13 @@ export interface PathPropsObject {
 
 export const resetProps = () => {
   // @ts-ignore
-  Props = undefined
-}
+  Props = undefined;
+};
 
-export type getProp = (req?: import('express').Request, client?: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>, ) => Promise<any>;
+export type getProp = (
+  req?: import('express').Request,
+  client?: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>,
+) => Promise<any>;
 
 interface PropContextType {
   props: any;
@@ -47,7 +50,7 @@ const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const PropProvider = (prop: PropProviderProps) => {
   const { req, children, sessionProps, client } = prop;
-  const [props, setProps] = useState(prop.props)
+  const [props, setProps] = useState(prop.props);
   const useProps = (newProp: getProp) => {
     const oldProps = sessionProps.find(({ path: pth }) => pth === (req ? req.path : globalHistory.location.pathname));
 
@@ -55,18 +58,17 @@ export const PropProvider = (prop: PropProviderProps) => {
     else Props = newProp(req, client);
   };
 
-  globalHistory.listen(async (c) => {
-    const oldProps = sessionProps.find(({ path: pth }) => pth === c.location.pathname)
+  globalHistory.listen(async c => {
+    const oldProps = sessionProps.find(({ path: pth }) => pth === c.location.pathname);
 
-    if (oldProps) setProps(oldProps.props || {})
+    if (oldProps) setProps(oldProps.props || {});
     else {
-      await timeout(50)
-      if (typeof (await Props) === 'undefined') return
-      sessionProps.push({ path: c.location.pathname, props: (await Props) || {} })
-      setProps((await Props) || {})
+      await timeout(50);
+      if (typeof (await Props) === 'undefined') return;
+      sessionProps.push({ path: c.location.pathname, props: (await Props) || {} });
+      setProps((await Props) || {});
     }
-    
-  })
+  });
 
   return (
     <PropContext.Provider
