@@ -1,1 +1,7 @@
-{getStatus{port online_players players}}
+{
+  getMCStatus {
+    port
+    online_players
+    players
+  }
+}

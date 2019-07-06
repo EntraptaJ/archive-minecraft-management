@@ -1,11 +1,25 @@
 // API/src/API/Minecraft/Admin/index.ts
-import { Resolver, Authorized, Root, Mutation, Arg, PubSubEngine, Subscription, Field, ObjectType, Query, Int } from 'type-graphql';
+import {
+  Resolver,
+  Authorized,
+  Root,
+  Mutation,
+  Arg,
+  PubSubEngine,
+  Subscription,
+  Field,
+  ObjectType,
+  Query,
+  Int,
+} from 'type-graphql';
 import { GraphQLUpload } from 'graphql-upload';
 import { pubSub } from './RCONPubSub';
 import fs from 'fs';
 import { Stream } from 'stream';
 import { FileInput } from './FileType';
-import { findContainer } from '../../../Utils/Docker'
+import { findContainer } from '../../../Utils/Docker';
+import { discordClient } from '../../../Discord';
+import { mcRCON } from '../../../RCON';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -58,24 +72,41 @@ export default class MinecraftAdminResolver {
   @Authorized(['Admin'])
   @Mutation(returns => Boolean)
   public async restartServer() {
-    const cont = await findContainer()
-    await cont.restart()
+    const cont = await findContainer();
+    const message = 'Minecraft Server restarting in 5 minutes';
+    const rawMessage = { text: message, color: 'red' }
+    // @ts-ignore
+    const channel = discordClient.channels.find(test => test.type === 'text' && test.name === 'minecraft-gang') as TextChannel;
+    console.log(channel)
+    // await channel.send(message);
+    if (mcRCON) mcRCON.send(`/tellraw @p ${JSON.stringify(rawMessage)}`);
+    setTimeout(() => {
+      cont.restart();
+    }, 300000);
     return true;
   }
 
   @Authorized(['Admin'])
   @Mutation(returns => Boolean)
   public async startServer() {
-    const cont = await findContainer()
-    await cont.start()
+    const cont = await findContainer();
+    await cont.start();
+    return true;
+  }
+
+  @Authorized(['Admin'])
+  @Mutation(returns => Boolean)
+  public async stopServer() {
+    const cont = await findContainer();
+    await cont.stop();
+
     return true;
   }
 
   @Authorized(['Admin'])
   @Query(returns => String)
-  public async getLogs(@Arg('lines', type => Int, { defaultValue: 500}) lines: number ) {
-    const cont = await findContainer()
+  public async getLogs(@Arg('lines', type => Int, { defaultValue: 500 }) lines: number) {
+    const cont = await findContainer();
     return cont.logs({ follow: false, tail: lines, stdout: true });
   }
-
 }

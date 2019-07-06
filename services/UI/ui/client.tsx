@@ -43,6 +43,7 @@ async function render(renderFunction: Renderer, App: typeof AppComponent) {
 
 render(hydrate, AppComponent);
 
+/*
 if (process.env.NODE_ENV === 'development') {
   const hot = (module as any).hot;
   if (hot && hot.accept) {
@@ -52,4 +53,4 @@ if (process.env.NODE_ENV === 'development') {
       render(renderApp, App);
     });
   }
-}
+} */

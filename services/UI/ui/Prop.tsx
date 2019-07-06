@@ -1,8 +1,6 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 import { Request } from 'express';
 import { globalHistory } from '@reach/router';
-import ApolloClient from 'apollo-client';
-import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 export let Props: Promise<any>;
 
@@ -16,14 +14,14 @@ export const resetProps = () => {
   Props = undefined
 }
 
-export type getProp = (req?: import('express').Request, client?: ApolloClient<NormalizedCacheObject>, ) => Promise<any>;
+export type getProp = (req?: import('express').Request, client?: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>, ) => Promise<any>;
 
 interface PropContextType {
   props: any;
   sessionProps: PathPropsObject[];
   useProps: (prop: getProp) => void;
   req?: Request;
-  client?: ApolloClient<NormalizedCacheObject>;
+  client?: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>;
 }
 
 export const PropContext = createContext<PropContextType>({
@@ -42,7 +40,7 @@ interface PropProviderProps {
   req?: Request;
   props: any;
   sessionProps: PathPropsObject[];
-  client: ApolloClient<NormalizedCacheObject>;
+  client: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>;
 }
 
 const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

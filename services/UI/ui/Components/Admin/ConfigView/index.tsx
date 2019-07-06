@@ -83,7 +83,6 @@ export const AdminModConfigView = () => {
       Object.entries(values as Object).map(([label, { value, comment }]) => {
         if (typeof value === 'number') Fields[section].push({ type: 'Number', label, value, comment });
         if (typeof value === 'boolean') Fields[section].push({ type: 'Boolean', label, value, comment });
-        else console.log(typeof value);
       });
     });
 

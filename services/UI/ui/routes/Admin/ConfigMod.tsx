@@ -2,7 +2,6 @@
 import React from 'react';
 import { AdminLayout } from '~Components/Admin/Layout';
 import { AdminModConfigView } from '~Components/Admin/ConfigView';
-import { TopAppBarFixedAdjust } from '@rmwc/top-app-bar';
 
 const ConfigModRoute = () => {
   return (

@@ -1,6 +1,5 @@
 import * as chokidar from 'chokidar';
 import { Request, Response } from 'express';
-import { Context } from 'koa';
 import 'isomorphic-unfetch';
 import { readJSON } from 'fs-extra';
 import { resolve } from 'path'

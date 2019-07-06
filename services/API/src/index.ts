@@ -16,10 +16,17 @@ import { createRouteExplorer } from 'altair-koa-middleware';
 import { buildAPISchema } from './API';
 import { ContextType } from './API/Context';
 import { UserModel } from './Models/User';
+import { discordClient } from './Discord';
+import { TextChannel } from 'discord.js';
+import { connectRCON } from './RCON';
+import { findContainer } from './Utils/Docker';
 
 const port = 80;
 
 const MCPath = process.env.MCPath || '/minecraft';
+
+// @ts-ignore
+export const minecraftChannel = discordClient.channels.find('name', 'minecraft') as TextChannel;
 
 const startWeb = async () => {
   const schema = await buildAPISchema();
@@ -79,6 +86,8 @@ const startWeb = async () => {
   return app;
 };
 
+const startDiscord = async () => discordClient.login(process.env.DISCORD, `${__dirname}/Discord/*.ts`);
+
 const startAPI = async () => {
   console.log('Starting API');
   const db = process.env.DBHost || 'localhost';
@@ -86,8 +95,12 @@ const startAPI = async () => {
     `mongodb://${db}:27017/MC`,
     { useNewUrlParser: true },
   );
-
-  await Promise.all([startWeb()]);
+  
+  const cont = await findContainer();
+  const contStatus = await cont.inspect();
+  // @ts-ignore
+  if (contStatus.State.Status === 'running' && contStatus.State.Health.Status === 'healthy') connectRCON();
+  await Promise.all([startWeb(), startDiscord()]);
   console.log(`Server listening on port ${port}`);
 };
 
