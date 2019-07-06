@@ -10,7 +10,7 @@ import { Typography } from '@rmwc/typography';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import useForm from 'react-hook-form';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import LOGIN_GQL from './LOGIN.graphql';
 import { navigate } from '@reach/router';
 import { MutationResponse } from '~Components/types';
@@ -33,6 +33,8 @@ export const LoginForm = () => {
   const [invalid, setInvalid] = useState<
     { field: 'Username' | 'Password'; message: string } | { field: undefined; message: undefined }
   >({ field: undefined, message: undefined });
+  const { cache } = useApolloClient()
+
   const onSubmit = async (variables: FormData) => {
     try {
       const response = await loginUser({
@@ -42,6 +44,7 @@ export const LoginForm = () => {
         if (response.data.loginUser.sucess === false) console.log(response);
         else {
           Cookies.set('token', response.data.loginUser.token, { expires: 30 });
+          await cache.reset()
           navigate('/');
         }
       } else console.error('Token not recieved');
