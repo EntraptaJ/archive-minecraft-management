@@ -60,10 +60,24 @@ export async function uiServer(req: Request, res: Response) {
         res.redirect(error.uri);
         return;
       } else {
-        // sessionProps = [{ path: req.path, props: await Props }];
-        //STF = await Props;
+        sessionProps = [{ path: req.path, props: await Props }];
+        STF = await Props;
       }
     }
+    await getMarkupFromTree({
+      renderFunction: renderToString,
+      tree: (
+        <ServerLocation url={req.url}>
+          <ConfigProvider {...config}>
+            <ApolloProvider client={client}>
+              <PropProvider req={req} props={STF} sessionProps={sessionProps} client={client}>
+                <App />
+              </PropProvider>
+            </ApolloProvider>
+          </ConfigProvider>
+        </ServerLocation>
+      ),
+    });
     html = renderToString(
       <ServerLocation url={req.url}>
         <Capture report={moduleName => modules.push(moduleName)}>

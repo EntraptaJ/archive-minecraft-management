@@ -7,36 +7,15 @@ import MCQuery from 'minecraft-query';
 import { MinecraftStatus } from './ServerStatus';
 import { StatusType } from './StatusType';
 import { findContainer } from '../../Utils/Docker';
+import { ModType } from './ModType';
+import { getMods } from './Admin/Mods/getMods'
 
 const MCPath = process.env.MCPath || '/minecraft';
 
-const getMods = async () => {
-  // Reccursively walk the /zones folder
-  const walk = klaw(`${MCPath}/mods`);
-
-  // Convert the walk into an AsyncIterableIterator
-  const files: AsyncIterableIterator<klaw.Item> = pEvent.iterator(walk, 'data', {
-    resolutionEvents: ['end'],
-  });
-
-  /**
-   * Array of zone files within the /zones folder of the filesystem
-   */
-  let mods: string[] = [];
-  for await (const file of files) {
-    // We don't want the directories themselves only files
-    if (file.stats.isDirectory()) continue;
-    // if file then parse the path and extract the filename as base
-    let { base: fileName } = path.parse(file.path);
-    if (fileName.includes('.jar')) mods.push(fileName);
-  }
-
-  return mods.sort();
-};
 @Resolver()
 export default class MinecraftResolver {
-  @Query(returns => [String])
-  public async listMods() {
+  @Query(returns => [ModType])
+  public async listMods(): Promise<ModType[]> {
     return getMods();
   }
 
@@ -51,11 +30,16 @@ export default class MinecraftResolver {
     const MCState = new MCQuery({ host: 'mc.kristianjones.dev', port: 25565 });
     const cont = await findContainer();
     const { State } = await cont.inspect();
-    return { online: State.Status === 'running', MCState: MCState.fullStat() as MinecraftStatus };
+    const fmlline = 'Run the command /fml confirm or or /fml cancel to proceed.';
+    const log = (await (<unknown>cont.logs({ follow: false, tail: 50, stdout: true }))) as string;
+
+    // @ts-ignore
+    const health = log.includes(fmlline) && !log.includes('FUCK') ? 'FMLConfirm' : State && State.Health && State.Health.Status;
+    return { online: State.Status === 'running', MCState: MCState.fullStat() as MinecraftStatus, health };
   }
 
   @Mutation(returns => Boolean)
-  public async generateModsZip() {
+  public async generateModsZip(): Promise<boolean> {
     await zip(`${MCPath}/mods`, 'mods.zip');
     return true;
   }

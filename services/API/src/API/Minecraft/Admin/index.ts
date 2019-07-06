@@ -5,10 +5,13 @@ import { pubSub } from './RCONPubSub';
 import fs from 'fs';
 import { Stream } from 'stream';
 import { FileInput } from './FileType';
-import { findContainer } from '../../../Utils/Docker';
+import { findContainer, execRCON } from '../../../Utils/Docker';
 import { discordClient } from '../../../Discord';
 import { mcRCON } from '../../../RCON';
 import { TextChannel } from 'discord.js';
+import {} from 'dockerode';
+import { Writable } from 'stream';
+import MemoryStream from 'memorystream';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -64,7 +67,8 @@ export default class MinecraftAdminResolver {
     const cont = await findContainer();
     const message = 'Minecraft Server restarting in 5 minutes';
     const rawMessage = { text: message, color: 'red' };
-    if (discordClient) {
+    if (discordClient.token) {
+      console.log('Test')
       const channel = discordClient.channels.find(
         // @ts-ignore
         test => test.type === 'text' && test.name === 'minecraft-gang',
@@ -92,6 +96,37 @@ export default class MinecraftAdminResolver {
     const cont = await findContainer();
     await cont.stop();
 
+    return true;
+  }
+
+  @Authorized(['Admin'])
+  @Mutation(returns => Boolean)
+  public async sendFMLConfirm() {
+    const cont = await findContainer();
+    var attach_opts = {
+      stream: true,
+      hijack: true,
+      stdin: true,
+      stdout: true,
+      stderr: true,
+    };
+
+    const attch = await cont.attach(attach_opts);
+
+    attch.write('/fml confirm\n');
+    const log = (await (<unknown>cont.logs({ follow: false, tail: 50, stdout: true }))) as string;
+    return log.includes('[FML]: confirmed');
+  }
+
+  @Authorized(['Admin'])
+  @Query(returns => Boolean)
+  public async testFML() {
+    const line =
+      'Alternatively start the server with -Dfml.queryResult=confirm or -Dfml.queryResult=cancel to preselect the answer.';
+    const cont = await findContainer();
+    const test = (await (<unknown>cont.logs({ follow: false, tail: 50, stdout: true }))) as string;
+    console.log(test);
+    console.log(test.includes(line));
     return true;
   }
 

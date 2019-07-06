@@ -1,3 +1,6 @@
 {
-  listMods
+  listMods {
+    name
+    fileName
+  }
 }

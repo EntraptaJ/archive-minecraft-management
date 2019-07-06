@@ -1,13 +1,13 @@
-// UI/ui/routes/Admin/ConfigMod.tsx
+// UI/ui/routes/Admin/ConfigMods/index.tsx
 import React from 'react';
-import { AdminLayout } from '~Components/Admin/Layout';
+import { Layout } from '~Components/Layout';
 import { AdminModConfigView } from '~Components/Admin/ConfigView';
 
 const ConfigModRoute = () => {
   return (
-    <AdminLayout>
+    <Layout admin>
       <AdminModConfigView />
-    </AdminLayout>
+    </Layout>
   );
 };
 

@@ -1,7 +1,7 @@
 // API/srv/Discord/index.ts
 import 'reflect-metadata';
 import { Client, Discord, On } from '@typeit/discord';
-import { Message, TextChannel } from 'discord.js'
+import { Message } from 'discord.js';
 
 export const discordClient = new Client();
 
@@ -12,4 +12,3 @@ abstract class MyDiscordApp {
     // ...
   }
 }
-

@@ -1,5 +1,6 @@
 {
   getStatus {
     online
+    health
   }
 }

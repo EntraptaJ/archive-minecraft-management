@@ -1,13 +1,13 @@
-// UI/ui/routes/Admin/Logs.tsx
+// UI/ui/routes/Admin/ServerLogs/index.tsx
 import React from 'react';
-import { AdminLayout } from '~Components/Admin/Layout';
+import { Layout } from '~Components/Layout';
 import { LogBox } from '~Components/Admin/LogBox';
 
 const AdminLogRoute = () => {
   return (
-    <AdminLayout>
+    <Layout admin>
       <LogBox />
-    </AdminLayout>
+    </Layout>
   );
 };
 

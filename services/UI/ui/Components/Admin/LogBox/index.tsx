@@ -9,12 +9,12 @@ import { Typography } from '@rmwc/typography';
 export const LogBox = () => {
   const { data } = useQuery<{ getLogs: string }>(GETLOGSGQL, { pollInterval: 2000 });
   return (
-    <div style={{ ...FormStyle, height: '60vh', maxWidth: '655px', padding: '1em 1em 0 1em' }}>
+    <div style={{ ...FormStyle, height: '60vh', maxWidth: '90vw', padding: '1em 1em 0 1em' }}>
       <Typography use='headline4'>Server Logs</Typography>
       <div
         style={{
           height: '60vh',
-          maxWidth: '655px',
+          maxWidth: '90vw',
           background: '#f0f0f0',
           whiteSpace: 'pre-wrap',
           overflowY: 'scroll',

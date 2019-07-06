@@ -14,6 +14,5 @@ services:
       - MEMORY=2G
     volumes:
       - '$PWD/services/API/minecraft:/data'     
-    tty: true
     stdin_open: true
     restart: unless-stopped

@@ -13,8 +13,8 @@ interface NavItemProps {
 const findRoute = (path: string) => {
   let routeItem: RouteItem | undefined;
   routes.map(route => {
-    if ('options' in route) routeItem = route.options.find(route2 => `${route.path}${route2.path}` === path);
-    if (route.path === path) routeItem = route;
+    if ('options' in route) routeItem = route.options.find(route2 =>  `${route.path}${route2.path}` === path || route.path === path );
+    else if (route.path === path) routeItem = route;
   });
   return routeItem;
 };

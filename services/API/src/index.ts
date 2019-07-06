@@ -86,7 +86,7 @@ const startWeb = async () => {
   return app;
 };
 
-const startDiscord = async () => discordClient.login(process.env.DISCORD, `${__dirname}/Discord/*.ts`);
+const startDiscord = async () => process.env.DISCORD && discordClient.login(process.env.DISCORD, `${__dirname}/Discord/*.ts`);
 
 const startAPI = async () => {
   console.log('Starting API');

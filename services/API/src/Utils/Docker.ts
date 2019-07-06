@@ -18,7 +18,7 @@ export const findContainer = async () => {
   return docker.getContainer(Id);
 };
 
-const execRCON = async (container: Docker.Container, command: string) => {
+export const execRCON = async (container: Docker.Container, command: string) => {
   const exec = await container.exec({
     Cmd: ['rcon-cli', command],
   });

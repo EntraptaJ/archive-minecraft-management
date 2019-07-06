@@ -1,3 +1,7 @@
 {
-  listMods
+  listMods {
+    name
+    disabled
+    fileName
+  }
 }

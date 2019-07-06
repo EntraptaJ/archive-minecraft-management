@@ -11,8 +11,13 @@ import { Typography } from '@rmwc/typography';
 import { LoadingProgress } from '~Components/Loading';
 import { Layout } from '~Components/Layout';
 
+interface ModType {
+  name: string
+  fileName: string
+}
+
 const ModsPage = () => {
-  const { data, loading } = useQuery<{ listMods: string[] }>(MODSGQL);
+  const { data, loading } = useQuery<{ listMods: ModType[] }>(MODSGQL);
   if (loading) return <LoadingProgress />;
   else if (data && data.listMods)
     return (
@@ -22,9 +27,9 @@ const ModsPage = () => {
           <Button onClick={() => (window.location.href = '/mods.zip')} raised label='Download Mods Zip' />
           {data.listMods.length > 0 ? (
             <List>
-              {data.listMods.map(mod => (
-                <ListItem onClick={() => (window.location.href = `/downloadMod/${mod}`)} key={mod}>
-                  {mod}
+              {data.listMods.map(({  name, fileName }) => (
+                <ListItem onClick={() => (window.location.href = `/downloadMod/${fileName}`)} key={name}>
+                  {name}
                 </ListItem>
               ))}
             </List>

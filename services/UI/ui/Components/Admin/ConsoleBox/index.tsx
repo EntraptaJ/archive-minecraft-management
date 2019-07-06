@@ -11,9 +11,8 @@ import '@material/floating-label/dist/mdc.floating-label.min.css';
 import '@material/notched-outline/dist/mdc.notched-outline.min.css';
 import '@material/line-ripple/dist/mdc.line-ripple.min.css';
 import { ChatItem } from './ChatItem';
-import { AdminLayout } from '../Layout';
 
-export const AdminChatBox = () => {
+export const AdminServerConsoleBox = () => {
   const [text, setText] = useState<string>('');
   const { loading, data } = useSubscription<{ RCON: string }>(SUBSCRIBEGQL);
   const [sendCommand] = useMutation<{}, { command: string }>(SENDCOMMANDGQL);
@@ -28,31 +27,27 @@ export const AdminChatBox = () => {
   };
 
   return (
-    <AdminLayout>
-      <div style={{ ...FormStyle, maxWidth: '550px' }}>
-        <Typography use='headline4'>Minecraft Server Console</Typography>
-        {loading ? (
-          <Typography use='body1'>Loading</Typography>
-        ) : (
-          data && (
-            <div style={{ overflowY: 'scroll' }}>
-              {history.map((string, index) => (
-                <ChatItem key={index} message={string} />
-              ))}
-            </div>
-          )
-        )}
-        <TextField
-          label='Send Command'
-          outlined
-          style={{ marginTop: '1em', width: '100%' }}
-          onKeyPress={handleKeyPress}
-          onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => setText(target.value)}
-          value={text}
-        />
-      </div>
-    </AdminLayout>
+    <div style={{ ...FormStyle, maxWidth: '90vw' }}>
+      <Typography use='headline4'>Minecraft Server Console</Typography>
+      {loading ? (
+        <Typography use='body1'>Loading</Typography>
+      ) : (
+        data && (
+          <div style={{ overflowY: 'scroll' }}>
+            {history.map((string, index) => (
+              <ChatItem key={index} message={string} />
+            ))}
+          </div>
+        )
+      )}
+      <TextField
+        label='Send Command'
+        outlined
+        style={{ marginTop: '1em', width: '100%' }}
+        onKeyPress={handleKeyPress}
+        onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => setText(target.value)}
+        value={text}
+      />
+    </div>
   );
 };
-
-export default AdminChatBox;
