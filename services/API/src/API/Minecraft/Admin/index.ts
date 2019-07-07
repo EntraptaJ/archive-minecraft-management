@@ -135,7 +135,7 @@ export default class MinecraftAdminResolver {
   }
 
   @Authorized(['Admin'])
-  @Mutation()
+  @Mutation(returns => Boolean)
   public async tellRaw(@Arg('text') text: string, @Arg('color') color: string) {
     const MSG = { text, color };
     if (mcRCON) mcRCON.send(`/tellraw @a ${JSON.stringify(MSG)}`);
