@@ -1,0 +1,9 @@
+{
+  getStatus {
+    online
+    MCState {
+      online_players
+      players
+    }
+  }
+}

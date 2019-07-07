@@ -12,7 +12,8 @@ import useForm from 'react-hook-form';
 import { useMutation } from '@apollo/react-hooks';
 import LOGIN_GQL from './REGISTER.graphql';
 import { navigate } from '@reach/router';
-import { FieldStyle, FormStyle, MainStyle } from './Styles';
+import { FieldStyle, FormStyle } from '~lib/styles';
+import { Layout } from '~Components/Layout';
 
 interface FormData {
   Username: string;
@@ -39,7 +40,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div style={MainStyle}>
+    <Layout>
       <form onSubmit={handleSubmit(onSubmit)} style={FormStyle}>
         <Typography use='headline4'>Register</Typography>
 
@@ -57,6 +58,6 @@ export const RegisterForm = () => {
 
         <Button raised label='Submit' style={FieldStyle} type='submit' />
       </form>
-    </div>
+    </Layout>
   );
 };

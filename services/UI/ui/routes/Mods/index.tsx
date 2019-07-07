@@ -1,15 +1,15 @@
 // UI/ui/routes/Mods/index.tsx
-import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { List, ListItem } from '@rmwc/list';
-import { Button } from '@rmwc/button';
-import MODSGQL from './Mods.graphql';
-import '@material/list/dist/mdc.list.min.css';
 import '@material/button/dist/mdc.button.min.css';
-import { FormStyle } from '~routes/Home/Styles';
+import '@material/list/dist/mdc.list.min.css';
+import { Button } from '@rmwc/button';
+import { List, ListItem } from '@rmwc/list';
 import { Typography } from '@rmwc/typography';
-import { LoadingProgress } from '~Components/Loading';
+import React from 'react';
 import { Layout } from '~Components/Layout';
+import { LoadingProgress } from '~Components/Loading';
+import { FormStyle } from '~lib/styles';
+import MODSGQL from './Mods.graphql';
 
 interface ModType {
   name: string
@@ -22,7 +22,7 @@ const ModsPage = () => {
   else if (data && data.listMods)
     return (
       <Layout>
-        <div style={{ ...FormStyle, marginTop: '1.5em', marginBottom: '1.5em' }}>
+        <div style={FormStyle}>
           <Typography use='headline4'>Minecraft Server</Typography>
           <Button onClick={() => (window.location.href = '/mods.zip')} raised label='Download Mods Zip' />
           {data.listMods.length > 0 ? (

@@ -1,7 +1,0 @@
-{
-  getMCStatus {
-    port
-    online_players
-    players
-  }
-}

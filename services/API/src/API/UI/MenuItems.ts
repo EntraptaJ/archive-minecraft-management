@@ -14,7 +14,7 @@ export const AdminMenu: MenuItem[] = [
   {
     label: 'Admin',
     path: '/Admin',
-    children: [
+    options: [
       { label: 'Main', path: '/Admin' },
       { label: 'Server Console', path: '/Admin/Console' },
       { label: 'Server Logs', path: '/Admin/Logs' },

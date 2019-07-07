@@ -10,5 +10,5 @@ export class MenuItem {
   path: string;
 
   @Field(type => [MenuItem], { nullable: 'itemsAndList' })
-  children?: MenuItem[];
+  options?: MenuItem[];
 }

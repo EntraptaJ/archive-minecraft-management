@@ -1,0 +1,10 @@
+{
+  getNav {
+    path
+    label
+    options {
+      label
+      path
+    }
+  }
+}

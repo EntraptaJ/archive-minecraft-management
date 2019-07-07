@@ -17,5 +17,5 @@ const HandleRoutes = (routes: NavItem[], parent?: string): ReactNode => {
 
 export const Routes = () => {
 
-  return <Router style={{ minHeight: '100%', display: 'flex', flexDirection: 'column'}}>{HandleRoutes(routes)}</Router>;
+  return <Router component='main' className='app__content mdc-drawer-app-content'>{HandleRoutes(routes)}</Router>;
 };

@@ -1,4 +1,4 @@
-// UI/ui/Components/NavBar/index.tsx
+// UI/ui/Components/Layout/AppTop/index.tsx
 import { useQuery } from '@apollo/react-hooks';
 import '@material/drawer/dist/mdc.drawer.min.css';
 import '@material/top-app-bar/dist/mdc.top-app-bar.min.css';
@@ -18,11 +18,11 @@ import NAVITEMSGQL from './NavItems.graphql';
 import { handleNavItems } from './NavItem/handleItems';
 import { NavItemType } from './types';
 
-interface NavBarProps extends ListProps {}
+interface AppTopProps extends ListProps {}
 
-type NavBarType = FunctionComponent<NavBarProps>;
+type AppTopType = FunctionComponent<AppTopProps>;
 
-export const NavBar: NavBarType = ({ children, ...props }) => {
+export const AppTop: AppTopType = ({ children, ...props }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [isMobileState, setIsMobileState] = useState(true);
   const { data, loading } = useQuery<{ getMenu: NavItemType[] }>(NAVITEMSGQL);

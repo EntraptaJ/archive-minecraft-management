@@ -1,7 +1,4 @@
 import { Resolver, Query, Mutation } from 'type-graphql';
-import klaw from 'klaw';
-import pEvent from 'p-event';
-import path from 'path';
 import { zip } from 'zip-a-folder';
 import MCQuery from 'minecraft-query';
 import { MinecraftStatus } from './ServerStatus';

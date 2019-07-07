@@ -87,7 +87,7 @@ export const AdminModConfigView = () => {
     });
 
   return (
-    <div style={{ ...FormStyle, marginTop: '2em', marginBottom: '2em' }}>
+    <div style={FormStyle}>
       <Typography use='headline4'>Configure Mod</Typography>
       {Object.entries(Fields).map(([section, test]) => (
         <>

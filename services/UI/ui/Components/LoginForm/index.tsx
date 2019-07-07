@@ -12,9 +12,9 @@ import Cookies from 'js-cookie';
 import useForm from 'react-hook-form';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import LOGIN_GQL from './LOGIN.graphql';
-import { navigate } from '@reach/router';
 import { MutationResponse } from '~Components/types';
-import { FieldStyle, FormStyle, MainStyle } from './Styles';
+import { FieldStyle, FormStyle } from '~lib/styles';
+import { Layout } from '~Components/Layout';
 
 interface FormData {
   Username: string;
@@ -33,7 +33,7 @@ export const LoginForm = () => {
   const [invalid, setInvalid] = useState<
     { field: 'Username' | 'Password'; message: string } | { field: undefined; message: undefined }
   >({ field: undefined, message: undefined });
-  const { cache } = useApolloClient()
+  const client = useApolloClient();
 
   const onSubmit = async (variables: FormData) => {
     try {
@@ -44,8 +44,9 @@ export const LoginForm = () => {
         if (response.data.loginUser.sucess === false) console.log(response);
         else {
           Cookies.set('token', response.data.loginUser.token, { expires: 30 });
-          await cache.reset()
-          navigate('/');
+          await client.clearStore()
+          await client.resetStore();
+          window.location.href = '/'
         }
       } else console.error('Token not recieved');
     } catch (e) {}
@@ -63,7 +64,7 @@ export const LoginForm = () => {
   );
 
   return (
-    <div style={MainStyle}>
+    <Layout>
       <form onSubmit={handleSubmit(onSubmit)} style={FormStyle}>
         <Typography use='headline4'>Login</Typography>
 
@@ -96,6 +97,6 @@ export const LoginForm = () => {
 
         <Button raised label='Submit' style={FieldStyle} type='submit' />
       </form>
-    </div>
+    </Layout>
   );
 };
