@@ -28,5 +28,9 @@ export const getMods = async (): Promise<ModType[]> => {
       mods.push({ name: /(.*)(?=(\.jar(\.disabled)?))/.exec(fileName)![1], disabled: fileName.includes('disabled'), fileName });
   } 
 
-  return mods.sort();
+  return mods.sort(({ name: A }, { name: B }) => {
+    if(A < B) { return -1; }
+    if(A > B) { return 1; }
+    return 0;
+  });
 };
