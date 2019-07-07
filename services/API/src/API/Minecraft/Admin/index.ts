@@ -9,9 +9,6 @@ import { findContainer, execRCON } from '../../../Utils/Docker';
 import { discordClient } from '../../../Discord';
 import { mcRCON } from '../../../RCON';
 import { TextChannel } from 'discord.js';
-import {} from 'dockerode';
-import { Writable } from 'stream';
-import MemoryStream from 'memorystream';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -68,14 +65,14 @@ export default class MinecraftAdminResolver {
     const message = 'Minecraft Server restarting in 5 minutes';
     const rawMessage = { text: message, color: 'red' };
     if (discordClient.token) {
-      console.log('Test')
+      console.log('Test');
       const channel = discordClient.channels.find(
         // @ts-ignore
         test => test.type === 'text' && test.name === 'minecraft-gang',
       ) as TextChannel;
       if (channel) await channel.send(message);
     }
-    if (mcRCON) mcRCON.send(`/tellraw @p ${JSON.stringify(rawMessage)}`);
+    if (mcRCON) mcRCON.send(`/tellraw @a ${JSON.stringify(rawMessage)}`);
     setTimeout(() => {
       cont.restart();
     }, 300000);
@@ -135,5 +132,13 @@ export default class MinecraftAdminResolver {
   public async getLogs(@Arg('lines', type => Int, { defaultValue: 500 }) lines: number) {
     const cont = await findContainer();
     return cont.logs({ follow: false, tail: lines, stdout: true });
+  }
+
+  @Authorized(['Admin'])
+  @Mutation()
+  public async tellRaw(@Arg('text') text: string, @Arg('color') color: string) {
+    const MSG = { text, color };
+    if (mcRCON) mcRCON.send(`/tellraw @a ${JSON.stringify(MSG)}`);
+    return true;
   }
 }
