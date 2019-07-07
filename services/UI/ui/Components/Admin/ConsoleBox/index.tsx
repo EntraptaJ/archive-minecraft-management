@@ -36,7 +36,8 @@ export const AdminServerConsoleBox = () => {
           <div
             style={{
               overflowY: 'scroll',
-              height: '73vh',
+              height: '55vh',
+              maxWidth: '90vw'
             }}
           >
             {history.map((string, index) => (
