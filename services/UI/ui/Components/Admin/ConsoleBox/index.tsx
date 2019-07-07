@@ -33,7 +33,12 @@ export const AdminServerConsoleBox = () => {
         <Typography use='body1'>Loading</Typography>
       ) : (
         data && (
-          <div style={{ overflowY: 'scroll' }}>
+          <div
+            style={{
+              overflowY: 'scroll',
+              height: '73vh',
+            }}
+          >
             {history.map((string, index) => (
               <ChatItem key={index} message={string} />
             ))}
