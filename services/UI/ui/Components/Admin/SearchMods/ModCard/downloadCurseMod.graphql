@@ -1,0 +1,7 @@
+mutation downloadCurseMod($modID: Int!){
+  downloadCurseMod(modID: $modID) {
+    latestFiles {
+      gameVersion
+    }
+  }
+}

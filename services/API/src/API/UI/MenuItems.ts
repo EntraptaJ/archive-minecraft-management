@@ -20,6 +20,7 @@ export const AdminMenu: MenuItem[] = [
       { label: 'Backups', path: '/Admin/Backups'},
       { label: 'Server Logs', path: '/Admin/Logs' },
       { label: 'Mod Management', path: '/Admin/Mods' },
+      { label: 'Search Mods', path: '/Admin/SearchMods' },
       { label: 'Configure Mods', path: '/Admin/ConfigMods' },
     ],
   },

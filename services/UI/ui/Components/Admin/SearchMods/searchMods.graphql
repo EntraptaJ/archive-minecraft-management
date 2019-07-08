@@ -1,0 +1,16 @@
+query searchMods($search: String!) {
+  searchMods(search: $search) {
+    name
+    id
+    summary
+    websiteUrl
+    authors {
+      name
+    }
+    latestFiles {
+      fileName
+      downloadUrl
+      gameVersion
+    }
+  }
+}

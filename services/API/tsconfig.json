@@ -3,7 +3,10 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "esnext",
+    "lib": ["esnext", "dom"],
     "outDir": "dist",
+    "declaration": true,
+    "baseUrl": "./src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true

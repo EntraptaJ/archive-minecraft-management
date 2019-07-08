@@ -25,6 +25,12 @@ const ModsRoute = Loadable({
   loading: LoadingProgress,
 });
 
+const SearchModsRoute = Loadable({
+  loader: () => import('~routes/Admin/SearchMods'),
+  modules: ['routes/Admin/SearchMods/index.tsx'],
+  loading: LoadingProgress,
+});
+
 const AdminRoute = Loadable({
   loader: () => import('~routes/Admin/Home'),
   modules: ['routes/Admin/Home/index.tsx'],
@@ -93,6 +99,7 @@ export const routes: NavItem[] = [
       { label: 'Console', path: '/Console', component: AdminChatRoute },
       { label: 'Server Logs', path: '/Logs', component: AdminLogsRoute },
       { label: 'Mods Management', path: '/Mods', component: AdminModRoute },
+      { label: 'Search Mods', path: '/SearchMods', component: SearchModsRoute },
       { label: 'Configure Mods', path: '/ConfigMods', component: AdminConfigModRoute },
       { label: 'Tell Raw', path: '/TellRaw', component: AdminTellRawRoute },
     ],
