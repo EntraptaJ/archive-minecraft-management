@@ -55,6 +55,18 @@ const AdminLogsRoute = Loadable({
   loading: LoadingProgress,
 });
 
+const AdminTellRawRoute = Loadable({
+  loader: () => import('~routes/Admin/TellRaw'),
+  modules: ['routes/Admin/TellRaw/index.tsx'],
+  loading: LoadingProgress,
+});
+
+const AdminBackupRoute = Loadable({
+  loader: () => import('~routes/Admin/Backups'),
+  modules: ['routes/Admin/Backups/index.tsx'],
+  loading: LoadingProgress,
+});
+
 export interface ChildNavItem {
   label: string;
   path: string;
@@ -77,10 +89,12 @@ export const routes: NavItem[] = [
     path: '/Admin',
     options: [
       { label: 'Main', path: '/', component: AdminRoute },
+      { label: 'Backups', path: '/Backups', component: AdminBackupRoute },
       { label: 'Console', path: '/Console', component: AdminChatRoute },
       { label: 'Server Logs', path: '/Logs', component: AdminLogsRoute },
       { label: 'Mods Management', path: '/Mods', component: AdminModRoute },
       { label: 'Configure Mods', path: '/ConfigMods', component: AdminConfigModRoute },
+      { label: 'Tell Raw', path: '/TellRaw', component: AdminTellRawRoute },
     ],
   },
   { label: 'Login', path: '/login', component: LoginRoute },

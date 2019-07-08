@@ -13,16 +13,18 @@ import { Dialog, DialogTitle, DialogActions, DialogButton, DialogContent } from 
 import './style.css';
 import UPLOADMODGQL from './UploadMod.graphql';
 import DELETEMODGQL from './deleteMod.graphql';
+import TOGGLEMODGQL from './toggleMod.graphql';
 
 interface ModItemProps {
   name: string;
   disabled: boolean;
   fileName: string;
+  toggleModFN: (modName: string) => Promise<any>;
 }
 
 type ModItemType = FunctionComponent<ModItemProps>;
 
-const ModItem: ModItemType = ({ name, disabled, fileName }) => {
+const ModItem: ModItemType = ({ name, disabled, fileName, toggleModFN }) => {
   const [open, setOpen] = useState(false);
   const [dialog, setDialog] = useState<boolean>(false);
   const [action, setAction] = useState<'Delete' | 'Toggle'>();
@@ -36,6 +38,8 @@ const ModItem: ModItemType = ({ name, disabled, fileName }) => {
   const toggleMod = () => {
     setAction('Toggle');
     setDialog(true);
+
+
   };
 
   return (
@@ -61,7 +65,7 @@ const ModItem: ModItemType = ({ name, disabled, fileName }) => {
                 modName: fileName,
               },
             });
-          else if (action === 'Toggle' && evt.detail.action === 'confirm') console.log(`Disable ${name}`);
+          else if (action === 'Toggle' && evt.detail.action === 'confirm') toggleModFN(name);
           setDialog(false);
         }}
       >
@@ -85,16 +89,27 @@ interface ModType extends ModItemProps {
 }
 
 export const AdminModManagement = () => {
-  const { data, loading } = useQuery<{ listMods: ModType[] }>(MODSGQL);
+  const { data, loading, refetch } = useQuery<{ listMods: ModType[] }>(MODSGQL);
   const [modName, setModName] = useState();
   const [uploadMod] = useMutation<{}, { file: any }>(UPLOADMODGQL);
+  const [toggleModFN] = useMutation<{}, { modName: string }>(TOGGLEMODGQL);
+
+  const toggleMod = async (modName: string) => {
+    await toggleModFN({
+      variables: {
+        modName,
+      },
+    });
+
+    await refetch()
+  };
 
   return (
     <List style={{ ...FormStyle, margin: '0 1em 0 1em', marginTop: '1em', marginBottom: '1em' }}>
       {loading ? (
         <ListItem>Loading</ListItem>
       ) : data ? (
-        data.listMods.map(mod => <ModItem {...mod} />)
+        data.listMods.map(mod => <ModItem toggleModFN={toggleMod} {...mod} />)
       ) : (
         <ListItem>Error</ListItem>
       )}

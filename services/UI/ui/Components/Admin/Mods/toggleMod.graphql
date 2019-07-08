@@ -1,0 +1,3 @@
+mutation toggleMod($modName: String!){
+  toggleMod(modName: $modName)
+}

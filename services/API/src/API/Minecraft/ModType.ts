@@ -13,4 +13,8 @@ export class ModType {
   @Authorized(['Admin'])
   @Field()
   disabled: boolean
+
+  @Authorized(['Admin'])
+  @Field({ nullable: true })
+  config?: string
 }

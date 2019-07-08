@@ -1,0 +1,6 @@
+mutation createBackup($name: String) {
+  createBackup(name: $name) {
+    name
+    date
+  }
+}

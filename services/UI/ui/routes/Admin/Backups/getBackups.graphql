@@ -1,0 +1,7 @@
+{
+  getBackups {
+    name
+    folderName
+    date
+  }
+}

@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg, ForbiddenError, Ctx, ObjectType, Field, Authorized } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Ctx, ObjectType, Field, Authorized } from 'type-graphql';
 import { ApolloError } from 'apollo-server-koa';
 import { UserModel, User } from '../../Models/User';
 import { ContextType } from '../Context';

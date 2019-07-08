@@ -3,6 +3,7 @@ import { ModType } from '../../ModType';
 import klaw from 'klaw';
 import pEvent from 'p-event';
 import path from 'path';
+import { listConfigs } from '../Configs/listConfigs';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -15,6 +16,8 @@ export const getMods = async (): Promise<ModType[]> => {
     resolutionEvents: ['end'],
   });
 
+  const configFiles = await listConfigs()
+
   /**
    * Array of zone files within the /zones folder of the filesystem
    */
@@ -24,8 +27,11 @@ export const getMods = async (): Promise<ModType[]> => {
     if (file.stats.isDirectory()) continue;
     // if file then parse the path and extract the filename as base
     let { base: fileName } = path.parse(file.path);
-    if (fileName.includes('.jar') && !fileName.includes('.meta'))
-      mods.push({ name: /(.*)(?=(\.jar(\.disabled)?))/.exec(fileName)![1], disabled: fileName.includes('disabled'), fileName });
+    if (fileName.includes('.jar') && !fileName.includes('.meta')) {
+      const test = configFiles.find((name) => /(\w+)\W.*/.exec(fileName)![1].toLowerCase() === name.replace(/\.(xml|json|cfg)/, ''))
+      mods.push({ name: /(.*)(?=(\.jar(\.disabled)?))/.exec(fileName)![1], disabled: fileName.includes('disabled'), fileName, config: configFiles.find((configName) => /(.*)(?=(\.jar(\.disabled)?))/.exec(fileName)![1].toLowerCase().includes(configName.replace(/\.(cfg|json|xml)/, '').toLowerCase())) });
+    }
+      
   } 
 
   return mods.sort(({ name: A }, { name: B }) => {

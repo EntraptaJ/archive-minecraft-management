@@ -28,10 +28,10 @@ export default class MinecraftResolver {
     const cont = await findContainer();
     const { State } = await cont.inspect();
     const fmlline = 'Run the command /fml confirm or or /fml cancel to proceed.';
-    const log = (await (<unknown>cont.logs({ follow: false, tail: 50, stdout: true }))) as string;
+    const log = (await (<unknown>cont.logs({ follow: false, tail: 200, stdout: true }))) as string;
 
     // @ts-ignore
-    const health = log.includes(fmlline) && !log.includes('FUCK') ? 'FMLConfirm' : State && State.Health && State.Health.Status;
+    const health = log.includes(fmlline) && !log.includes('[FML]: confirmed') ? 'FMLConfirm' : State && State.Health && State.Health.Status;
     return { online: State.Status === 'running', MCState: MCState.fullStat() as MinecraftStatus, health };
   }
 

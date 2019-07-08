@@ -1,0 +1,3 @@
+mutation tellRaw($text: String!, $color: String!){
+ tellRaw(text: $text, color: $color)
+}

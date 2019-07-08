@@ -17,6 +17,7 @@ export const AdminMenu: MenuItem[] = [
     options: [
       { label: 'Main', path: '/Admin' },
       { label: 'Server Console', path: '/Admin/Console' },
+      { label: 'Backups', path: '/Admin/Backups'},
       { label: 'Server Logs', path: '/Admin/Logs' },
       { label: 'Mod Management', path: '/Admin/Mods' },
       { label: 'Configure Mods', path: '/Admin/ConfigMods' },

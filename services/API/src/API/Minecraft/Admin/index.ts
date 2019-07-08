@@ -1,33 +1,28 @@
 // API/src/API/Minecraft/Admin/index.ts
 import { Resolver, Authorized, Root, Mutation, Arg, Subscription, Query, Int } from 'type-graphql';
-import { GraphQLUpload } from 'graphql-upload';
+import { GraphQLUpload } from 'apollo-server-koa';
 import { pubSub } from './RCONPubSub';
-import fs from 'fs';
-import { Stream } from 'stream';
+import { createWriteStream } from 'fs-extra';
+import { Readable } from 'stream';
 import { FileInput } from './FileType';
 import { findContainer, execRCON } from '../../../Utils/Docker';
 import { discordClient } from '../../../Discord';
 import { mcRCON } from '../../../RCON';
 import { TextChannel } from 'discord.js';
+import pEvent from 'p-event';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
-const storeFS = ({ stream, filename }: { stream: Stream; filename: string }) => {
-  return new Promise((resolve, reject) =>
-    stream
-      .on('error', error => {
-        // @ts-ignore
-        if (stream.truncated)
-          // @ts-ignore
-          fs.unlinkSync(filename);
-        reject(error);
-      })
-      // @ts-ignore
-      .pipe(fs.createWriteStream(`${MCPath}/mods/${filename}`))
-      .on('error', error => reject(error))
-      // @ts-ignore
-      .on('finish', () => resolve()),
-  );
+interface FileSave {
+  stream: Readable;
+  filename: string;
+}
+
+type storeFile = (File: FileSave) => Promise<void>;
+
+const storeFSNew: storeFile = async ({ stream, filename }) => {
+  stream.pipe(createWriteStream(`${MCPath}/mods/${filename}`));
+  return pEvent(stream, 'open');
 };
 
 @Resolver()
@@ -51,10 +46,9 @@ export default class MinecraftAdminResolver {
     @Arg('file', type => GraphQLUpload)
     file: FileInput,
   ): Promise<boolean> {
-    // @ts-ignore
     const { createReadStream, filename } = await file;
     const stream = createReadStream();
-    await storeFS({ stream, filename: filename });
+    await storeFSNew({ stream, filename });
     return true;
   }
 
@@ -65,7 +59,6 @@ export default class MinecraftAdminResolver {
     const message = 'Minecraft Server restarting in 5 minutes';
     const rawMessage = { text: message, color: 'red' };
     if (discordClient.token) {
-      console.log('Test');
       const channel = discordClient.channels.find(
         // @ts-ignore
         test => test.type === 'text' && test.name === 'minecraft-gang',
@@ -121,9 +114,7 @@ export default class MinecraftAdminResolver {
     const line =
       'Alternatively start the server with -Dfml.queryResult=confirm or -Dfml.queryResult=cancel to preselect the answer.';
     const cont = await findContainer();
-    const test = (await (<unknown>cont.logs({ follow: false, tail: 50, stdout: true }))) as string;
-    console.log(test);
-    console.log(test.includes(line));
+    const test = (await (<unknown>cont.logs({ follow: false, tail: 200, stdout: true }))) as string;
     return true;
   }
 
