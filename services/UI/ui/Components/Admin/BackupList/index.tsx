@@ -5,7 +5,8 @@ import '@material/list/dist/mdc.list.css';
 import '@material/menu/dist/mdc.menu.min.css';
 import '@material/menu-surface/dist/mdc.menu-surface.min.css';
 import '@material/dialog/dist/mdc.dialog.min.css';
-import { useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import RESTOREBACKUPGQL from './restoreBackup.graphql';
 import moment from 'moment';
 import { List, ListItem, ListItemMeta, ListItemText, ListItemPrimaryText, ListItemSecondaryText } from '@rmwc/list';
 import { MenuSurfaceAnchor, Menu, MenuItem } from '@rmwc/menu';
@@ -17,15 +18,15 @@ interface Backup {
   date: Date;
 }
 
-
 interface BackupListProps {
-  data: {
-    getBackups: Backup[]
-  } | undefined
+  data:
+    | {
+        getBackups: Backup[];
+      }
+    | undefined;
 }
 
 type BackupListType = FunctionComponent<BackupListProps>;
-
 
 interface BackupRowProps extends Backup {}
 
@@ -41,9 +42,17 @@ type BackupRowType = FunctionComponent<BackupRowProps>;
     </DataTableRow>
  */
 
-const BackupRow: BackupRowType = ({ name, date }) => {
+const BackupRow: BackupRowType = ({ name, date, folderName }) => {
   const [open, setOpen] = useState(false);
   const [dialog, setDialog] = useState<boolean>(false);
+  const [action, setAction] = useState<'Delete' | 'Restore'>();
+  const [restoreBackupFN] = useMutation<{ restoreBackup: boolean }, { folderName: string }>(RESTOREBACKUPGQL);
+
+  const restoreBackup = () => {
+    setAction('Restore');
+    setDialog(true);
+  };
+
   return (
     <>
       <MenuSurfaceAnchor style={{ width: '100%' }}>
@@ -55,21 +64,38 @@ const BackupRow: BackupRowType = ({ name, date }) => {
           <ListItemMeta icon='menu' onClick={() => setOpen(!open)} />
         </ListItem>
         <Menu open={open} onClose={evt => setOpen(false)} style={{ right: 0, left: 'unset' }}>
-          <MenuItem>Restore Backup</MenuItem>
+          <MenuItem onClick={restoreBackup}>Restore Backup</MenuItem>
         </Menu>
       </MenuSurfaceAnchor>
       <Dialog
         open={dialog}
         onClose={evt => {
+          //if (action === 'Delete' && evt.detail.action === 'confirm') console.log('Delete backup')
+          if (action === 'Restore' && evt.detail.action === 'confirm')
+            restoreBackupFN({
+              variables: {
+                folderName,
+              },
+            });
           setDialog(false);
         }}
       >
-        <DialogTitle>New Backup</DialogTitle>
-        <DialogContent>Create new Backup</DialogContent>
+        <DialogTitle>{`${action} ${name}`}</DialogTitle>
+        <DialogContent>
+          Are you sure you want to {action} the Backup?
+          {action === 'Restore' ? (
+            <>
+              <br />
+              <span style={{ fontWeight: 'bolder' }}>BE CERTAIN SEVRER IS STOPPED</span>
+            </>
+          ) : (
+            ''
+          )}
+        </DialogContent>
         <DialogActions>
           <DialogButton action='close'>Cancel</DialogButton>
           <DialogButton action='confirm' isDefaultAction>
-            Create Backup
+            {action}
           </DialogButton>
         </DialogActions>
       </Dialog>
@@ -77,12 +103,14 @@ const BackupRow: BackupRowType = ({ name, date }) => {
   );
 };
 
-
 export const BackupList: BackupListType = ({ data }) => {
-  
   return (
     <List twoLine style={{ width: '100%', marginBottom: '1em' }}>
-      {data && data.getBackups ? data.getBackups.map(backup => <BackupRow {...backup} key={backup.date.toString()} />) : <ListItem>Loading</ListItem>}
+      {data && data.getBackups ? (
+        data.getBackups.map(backup => <BackupRow {...backup} key={backup.date.toString()} />)
+      ) : (
+        <ListItem>Loading</ListItem>
+      )}
     </List>
   );
 };

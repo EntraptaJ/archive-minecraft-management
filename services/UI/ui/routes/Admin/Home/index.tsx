@@ -8,7 +8,8 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import STARTGQL from './startServer.graphql';
 import STATUSGQL from './serverStatus.graphql';
 import RESTARTGQL from './restartServer.graphql';
-import SENDFMLGQL from './sendFMLConfirm.graphql'
+import SENDFMLGQL from './sendFMLConfirm.graphql';
+import STOPGQL from './stopServer.graphql';
 import '@material/button/dist/mdc.button.min.css';
 import '@material/theme/dist/mdc.theme.css';
 import '@rmwc/circular-progress/circular-progress.css';
@@ -29,6 +30,7 @@ interface getStatus {
 const AdminPage: AdminPageType = () => {
   const [restartServer, { loading: restartLoading }] = useMutation(RESTARTGQL);
   const [startServer, { loading: startLoading }] = useMutation(STARTGQL);
+  const [stopServer, { loading: stopLoading }] = useMutation(STOPGQL);
   const [sendFML, { loading: fmlLoading }] = useMutation(SENDFMLGQL);
   const { data } = useQuery<{ getStatus: getStatus }>(STATUSGQL);
   if (!data || typeof data.getStatus === 'undefined')
@@ -44,8 +46,15 @@ const AdminPage: AdminPageType = () => {
       <div style={FormStyle}>
         <Typography use='headline4'>Admin Portal</Typography>
         {data.getStatus.online ? (
-          <>
-            {' '}
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Button
+              label='Stop Server'
+              danger
+              raised
+              onClick={() => stopServer()}
+              icon={stopLoading && <CircularProgress style={{ color: 'white' }} />}
+              style={{ marginRight: '1rem' }}
+            />
             <Button
               label='Restart Server'
               danger
@@ -53,7 +62,8 @@ const AdminPage: AdminPageType = () => {
               onClick={() => restartServer()}
               icon={restartLoading && <CircularProgress style={{ color: 'white' }} />}
             />
-          </>
+
+          </div>
         ) : (
           <Button
             label='Start Server'

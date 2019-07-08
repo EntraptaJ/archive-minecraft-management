@@ -1,0 +1,3 @@
+mutation restoreBackup($folderName: String!) {
+  restoreBackup(folderName: $folderName)
+}
