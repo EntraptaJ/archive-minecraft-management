@@ -47,7 +47,7 @@ const ModItem: ModItemType = ({ name, disabled, fileName, toggleModFN }) => {
   return (
     <>
       <MenuSurfaceAnchor style={{ width: '100%' }}>
-        <ListItem style={{ width: '92%' }}>
+        <ListItem disabled={disabled} style={{ width: '92%' }}>
           {name}
           <ListItemMeta icon='menu' onClick={() => setOpen(!open)} />
         </ListItem>

@@ -15,6 +15,7 @@ import MODSGQL from './Mods.graphql';
 interface ModType {
   name: string;
   fileName: string;
+  disabled: boolean
 }
 
 const ModsPage = () => {
@@ -28,8 +29,8 @@ const ModsPage = () => {
           <Button onClick={() => (window.location.href = '/mods.zip')} raised label='Download Mods Zip' />
           {data.listMods.length > 0 ? (
             <List>
-              {data.listMods.map(({ name, fileName }) => (
-                <ListItem onClick={() => (window.location.href = `/downloadMod/${fileName}`)} key={name}>
+              {data.listMods.map(({ name, fileName, disabled }) => (
+                <ListItem disabled={disabled} onClick={() => (window.location.href = `/downloadMod/${fileName}`)} key={name}>
                   {name}
                 </ListItem>
               ))}

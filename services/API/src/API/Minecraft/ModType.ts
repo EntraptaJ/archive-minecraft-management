@@ -1,20 +1,18 @@
 // API/src/API/Minecraft/ModType.ts
-import { ObjectType, Field, Authorized } from 'type-graphql'
+import { ObjectType, Field, Authorized } from 'type-graphql';
 
 @ObjectType()
 export class ModType {
   @Field()
-  name: string
+  name: string;
 
   @Field()
-  fileName: string
- 
-  
-  @Authorized(['Admin'])
+  fileName: string;
+
   @Field()
-  disabled: boolean
+  disabled: boolean;
 
   @Authorized(['Admin'])
   @Field({ nullable: true })
-  config?: string
+  config?: string;
 }
