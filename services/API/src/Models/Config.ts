@@ -22,7 +22,8 @@ export const ConfigModel = new Config().getModelForClass(Config);
 
 export const loadConfig = async (): Promise<InstanceType<Config>> => {
   const config = await ConfigModel.findOne({ ID: 1 });
-  if (!config) throw new Error('NO CONFIG');
+  // @ts-ignore
+  if (!config) return { MCURI: '' };
   return config;
 };
 
