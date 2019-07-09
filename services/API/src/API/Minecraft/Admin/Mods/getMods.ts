@@ -34,9 +34,12 @@ export const getMods = async (): Promise<ModType[]> => {
       
   } 
 
-  return mods.sort(({ name: A }, { name: B }) => {
+  return mods.sort((a, b) => a.name.localeCompare(b.name))
+  
+  /*
+  mods.sort(({ name: A }, { name: B }) => {
     if(A < B) { return -1; }
     if(A > B) { return 1; }
     return 0;
-  });
+  }); */
 };
