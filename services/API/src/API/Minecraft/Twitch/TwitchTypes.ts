@@ -36,8 +36,8 @@ export class CurseFile {
   @Field(type => Int)
   fileLength: number;
 
-  @Field(type => Int)
-  releaseTyp: number;
+  @Field(type => Int, { description: '1: Release, 3: Beta'})
+  releaseType: number;
 
   @Field(type => Int)
   fileStatus: number;

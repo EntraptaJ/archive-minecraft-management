@@ -1,8 +1,8 @@
 // API/src/API/Minecraft/Twitch/index.ts
 import { Resolver, Query, Arg, ObjectType, Field, Int, Mutation, ForbiddenError } from 'type-graphql';
 import got from 'got';
-import { CurseMod } from './TwitchTypes'
-import download from 'download'
+import { CurseMod } from './TwitchTypes';
+import download from 'download';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -19,10 +19,12 @@ export class TwitchResolver {
 
   @Mutation(returns => CurseMod)
   public async downloadCurseMod(@Arg('modID', type => Int) modID: number) {
-    const res = await got.get<CurseMod>(`https://addons-ecs.forgesvc.net/api/v2/addon/${modID}`,{ json: true})
-    const mod = res.body.latestFiles.find(({ gameVersion }) => gameVersion.includes('1.12.2'))
-    if (!mod) throw new ForbiddenError()
-    await download(mod.downloadUrl, `${MCPath}/mods`)
-    return res.body
+    const res = await got.get<CurseMod>(`https://addons-ecs.forgesvc.net/api/v2/addon/${modID}`, { json: true });
+    const mod = res.body.latestFiles.find(
+      ({ gameVersion, releaseType }) => gameVersion.includes('1.12.2') && releaseType === 1,
+    );
+    if (!mod) throw new ForbiddenError();
+    await download(mod.downloadUrl, `${MCPath}/mods`);
+    return res.body;
   }
 }
