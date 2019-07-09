@@ -1,23 +1,25 @@
 // UI/ui/routes/Admin/Backups/index.tsx
-import React, { useState, FunctionComponent, ChangeEvent } from 'react';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import '@material/dialog/dist/mdc.dialog.min.css';
+import '@material/fab/dist/mdc.fab.css';
+import '@material/floating-label/dist/mdc.floating-label.min.css';
+import '@material/icon-button/dist/mdc.icon-button.min.css';
+import '@material/line-ripple/dist/mdc.line-ripple.min.css';
+import '@material/notched-outline/dist/mdc.notched-outline.min.css';
+import '@material/textfield/dist/mdc.textfield.min.css';
+import { CircularProgress } from '@rmwc/circular-progress';
+import '@rmwc/circular-progress/circular-progress.css';
+import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from '@rmwc/dialog';
+import { Fab } from '@rmwc/fab';
+import { IconButton } from '@rmwc/icon-button';
+import { TextField } from '@rmwc/textfield';
+import { Typography } from '@rmwc/typography';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { BackupList } from '~Components/Admin/BackupList';
 import { Layout } from '~Components/Layout';
 import { FormStyle } from '~lib/styles';
-import { BackupList } from '~Components/Admin/BackupList';
-import { Dialog, DialogTitle, DialogActions, DialogButton, DialogContent } from '@rmwc/dialog';
-import { TextField } from '@rmwc/textfield';
-import { Fab } from '@rmwc/fab';
-import '@material/fab/dist/mdc.fab.css';
-import '@material/dialog/dist/mdc.dialog.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
-import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
-import '@material/icon-button/dist/mdc.icon-button.min.css';
-import { useMutation, useQuery } from '@apollo/react-hooks';
 import CREATEBACKUPGQL from './createBackup.graphql';
 import GETBACKUPSGQL from './getBackups.graphql';
-import { IconButton } from '@rmwc/icon-button';
-import { Typography } from '@rmwc/typography';
 
 interface Backup {
   name: string;
@@ -34,7 +36,7 @@ interface BackupDialogProps {
 type BackupDialogType = FunctionComponent<BackupDialogProps>;
 
 const BackupDialog: BackupDialogType = ({ refetch, open, setOpen }) => {
-  const [createBackup] = useMutation<{ createBackup: Backup }, { name?: string }>(CREATEBACKUPGQL);
+  const [createBackup, { loading }] = useMutation<{ createBackup: Backup }, { name?: string }>(CREATEBACKUPGQL);
   const [name, setValue] = useState<string>();
 
   return (
@@ -69,7 +71,7 @@ const BackupDialog: BackupDialogType = ({ refetch, open, setOpen }) => {
 
       <DialogActions>
         <DialogButton action='close'>Cancel</DialogButton>
-        <DialogButton action='confirm' isDefaultAction>
+        <DialogButton action='confirm' isDefaultAction icon={loading && <CircularProgress />}>
           Create Backup
         </DialogButton>
       </DialogActions>
