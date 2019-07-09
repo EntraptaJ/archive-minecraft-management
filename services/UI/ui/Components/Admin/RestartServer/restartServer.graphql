@@ -1,3 +1,5 @@
-mutation stopServer {
-  stopServer
+mutation restartServer($options: RestartServerInput) {
+  restartServer(options: $options) {
+    success
+  }
 }
