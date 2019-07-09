@@ -16,6 +16,10 @@ export class Config extends Typegoose {
   @prop({ required: false })
   @Field({ nullable: true })
   DISCORDAPI?: string;
+
+  @prop({ required: false })
+  @Field({ nullable: true })
+  DISCORDCHANNEL?: string;
 }
 
 export const ConfigModel = new Config().getModelForClass(Config);
@@ -36,6 +40,7 @@ export const isConfigured = async () => {
 interface SaveConfigParams {
   MCURI: string;
   DISCORDAPI?: string
+  DISCORDCHANNEL?: string
 }
 
 export const saveConfig = async (config: SaveConfigParams): Promise<InstanceType<Config>> => {

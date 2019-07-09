@@ -17,6 +17,8 @@ import { Button } from '@rmwc/button';
 import { FormStyle } from '~lib/styles';
 import { CircularProgress } from '@rmwc/circular-progress';
 import { LoadingProgress } from '~Components/Loading';
+import { RestartServer } from '~Components/Admin/RestartServer';
+import { StopServer } from '~Components/Admin/StopServer';
 
 interface AdminPageProps extends RouteComponentProps {}
 
@@ -47,21 +49,8 @@ const AdminPage: AdminPageType = () => {
         <Typography use='headline4'>Admin Portal</Typography>
         {data.getStatus.online ? (
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Button
-              label='Stop Server'
-              danger
-              raised
-              onClick={() => stopServer()}
-              icon={stopLoading && <CircularProgress style={{ color: 'white' }} />}
-              style={{ marginRight: '1rem' }}
-            />
-            <Button
-              label='Restart Server'
-              danger
-              raised
-              onClick={() => restartServer()}
-              icon={restartLoading && <CircularProgress style={{ color: 'white' }} />}
-            />
+            <StopServer />
+            <RestartServer />
 
           </div>
         ) : (

@@ -15,6 +15,7 @@
   "author": "Kristian Jones <me@kristianjones.xyz>",
   "license": "ISC",
   "devDependencies": {
+    "@types/cron": "^1.7.1",
     "@types/dockerode": "^2.5.20",
     "@types/download": "^6.2.4",
     "@types/fs-extra": "^8.0.0",
@@ -40,6 +41,7 @@
     "altair-koa-middleware": "^2.2.0",
     "apollo-server-koa": "^2.6.7",
     "bcrypt": "^3.0.6",
+    "cron": "^1.7.1",
     "discord.js": "^11.5.1",
     "dockerode": "^2.5.8",
     "download": "^7.1.0",

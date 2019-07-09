@@ -7,6 +7,9 @@ class ConfigInput {
   @Field({ nullable: true })
   DISCORDAPI?: string;
 
+  @Field({ nullable: true })
+  DISCORDCHANNEL?: string;
+
   @Field()
   MCURI: string;
 }

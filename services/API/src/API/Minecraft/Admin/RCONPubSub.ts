@@ -1,7 +1,7 @@
 // API/src/API/Minecraft/Admin/RCONPubSub.ts
 import { PubSubEngine } from 'type-graphql';
 import { EventEmitter } from 'events';
-import { mcRCON } from '../../../RCON';
+import { mcRCON } from '../../../Utils/RCON';
 
 let id = 0;
 

@@ -6,6 +6,8 @@ import '@material/list/dist/mdc.list.min.css';
 import '@material/menu/dist/mdc.menu.min.css';
 import '@material/menu-surface/dist/mdc.menu-surface.min.css';
 import '@material/dialog/dist/mdc.dialog.min.css';
+import '@material/typography/dist/mdc.typography.min.css';
+import '@material/icon-button/dist/mdc.icon-button.min.css';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FormStyle } from '~lib/styles';
 import { MenuSurfaceAnchor, Menu, MenuItem } from '@rmwc/menu';
@@ -14,6 +16,8 @@ import './style.css';
 import UPLOADMODGQL from './UploadMod.graphql';
 import DELETEMODGQL from './deleteMod.graphql';
 import TOGGLEMODGQL from './toggleMod.graphql';
+import { Typography } from '@rmwc/typography';
+import { IconButton } from '@rmwc/icon-button';
 
 interface ModItemProps {
   name: string;
@@ -38,8 +42,6 @@ const ModItem: ModItemType = ({ name, disabled, fileName, toggleModFN }) => {
   const toggleMod = () => {
     setAction('Toggle');
     setDialog(true);
-
-
   };
 
   return (
@@ -101,30 +103,45 @@ export const AdminModManagement = () => {
       },
     });
 
-    await refetch()
+    await refetch();
   };
 
   return (
-    <List style={{ ...FormStyle, margin: '0 1em 0 1em', marginTop: '1em', marginBottom: '1em' }}>
-      {loading ? (
-        <ListItem>Loading</ListItem>
-      ) : data ? (
-        data.listMods.map(mod => <ModItem toggleModFN={toggleMod} {...mod} />)
-      ) : (
-        <ListItem>Error</ListItem>
-      )}
-
-      <div className='upload-btn-wrapper'>
-        <button className='btn'>Upload a Mod</button>
-        <input
-          type='file'
-          name='myfile'
-          required
-          onChange={({ target: { validity, files } }: ChangeEvent<HTMLInputElement>) =>
-            validity.valid && uploadMod({ variables: { file: files![0] } })
-          }
+    <div style={FormStyle}>
+      <div style={{ display: 'flex', width: '100%' }}>
+        <Typography
+          style={{ alignSelf: 'center', position: 'absolute', left: '49%', transform: 'translateX(-50%)' }}
+          use='headline4'
+        >
+          Mods
+        </Typography>
+        <IconButton
+          style={{ alignSelf: 'flex-end', marginLeft: 'auto' }}
+          icon='refresh'
+          onClick={() => refetch()}
         />
       </div>
-    </List>
+      <List style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        {loading ? (
+          <ListItem>Loading</ListItem>
+        ) : data ? (
+          data.listMods.map(mod => <ModItem key={mod.name} toggleModFN={toggleMod} {...mod} />)
+        ) : (
+          <ListItem>Error</ListItem>
+        )}
+
+        <div className='upload-btn-wrapper'>
+          <button className='btn'>Upload a Mod</button>
+          <input
+            type='file'
+            name='myfile'
+            required
+            onChange={({ target: { validity, files } }: ChangeEvent<HTMLInputElement>) =>
+              validity.valid && uploadMod({ variables: { file: files![0] } })
+            }
+          />
+        </div>
+      </List>
+    </div>
   );
 };

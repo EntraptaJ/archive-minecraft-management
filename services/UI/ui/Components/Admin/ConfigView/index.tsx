@@ -1,18 +1,18 @@
 // UI/ui/Components/Admin/ConfigView/index.tsx
-import React, { useState, FunctionComponent, ChangeEvent } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import GETCONFIGGQL from './getConfig.graphql';
-import { LoadingProgress } from '~Components/Loading';
-import { FormStyle } from '~routes/Home/Styles';
-import { Typography } from '@rmwc/typography';
-import { TextField } from '@rmwc/textfield';
-import '@material/textfield/dist/mdc.textfield.min.css';
 import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
-import '@material/switch/dist/mdc.switch.min.css';
 import '@material/form-field/dist/mdc.form-field.min.css';
+import '@material/line-ripple/dist/mdc.line-ripple.min.css';
+import '@material/notched-outline/dist/mdc.notched-outline.min.css';
+import '@material/switch/dist/mdc.switch.min.css';
+import '@material/textfield/dist/mdc.textfield.min.css';
 import { Switch } from '@rmwc/switch';
+import { TextField } from '@rmwc/textfield';
+import { Typography } from '@rmwc/typography';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { LoadingProgress } from '~Components/Loading';
+import { FormStyle } from '~lib/styles';
+import GETCONFIGGQL from './getConfig.graphql';
 
 interface FieldBooleanType {
   type: 'Boolean';
@@ -93,7 +93,7 @@ export const AdminModConfigView = () => {
         <>
           <Typography use='headline4'>{section}</Typography>
           {test.map(stuff => (
-            <Field {...stuff} />
+            <Field key={stuff.label} {...stuff} />
           ))}
         </>
       ))}

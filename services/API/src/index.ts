@@ -18,9 +18,10 @@ import { ContextType } from './API/Context';
 import { UserModel } from './Models/User';
 import { discordClient } from './Discord';
 import { TextChannel } from 'discord.js';
-import { connectRCON } from './RCON';
+import { connectRCON, startRCON } from './Utils/RCON';
 import { findContainer } from './Utils/Docker';
 import { loadConfig } from './Models/Config';
+import { CronJob } from 'cron'
 
 const port = 80;
 
@@ -100,10 +101,9 @@ const startAPI = async () => {
     { useNewUrlParser: true },
   );
 
-  const cont = await findContainer();
-  const contStatus = await cont.inspect();
-  // @ts-ignore
-  if (contStatus.State.Status === 'running' && contStatus.State.Health.Status === 'healthy') connectRCON();
+  await startRCON()
+  new CronJob('*/5 * * * *', () => startRCON(), null, true, 'America/Los_Angeles');
+
   await Promise.all([startWeb(), startDiscord()]);
   console.log(`Server listening on port ${port}`);
 };

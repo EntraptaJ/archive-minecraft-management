@@ -15,17 +15,25 @@ import '@material/line-ripple/dist/mdc.line-ripple.min.css';
 export interface Settings {
   MCURI: string;
   DISCORDAPI?: string;
+  DISCORDCHANNEL?: string;
 }
 
 interface AdminSettingsProps extends Settings {}
 
 type AdminSettingsType = FunctionComponent<AdminSettingsProps>;
 
-export const AdminSettings: AdminSettingsType = ({ MCURI, DISCORDAPI }) => {
+export const AdminSettings: AdminSettingsType = ({ MCURI, DISCORDAPI, DISCORDCHANNEL }) => {
   const [MCURIValue, setMCURIValue] = useState<string>(MCURI);
   const [DISCORDTOKENValue, setDISCORDTOKENValue] = useState<string>(DISCORDAPI ? DISCORDAPI : '');
+  const [DISCORDCHANNELValue, setDISCORDCHANNELValue] = useState<string>(DISCORDCHANNEL ? DISCORDCHANNEL : '');
   const [updateSettingsFN] = useMutation<{ updateSettings: Settings }, { CONFIG: Settings }>(UPDATESETTINGSGQL, {
-    variables: { CONFIG: { MCURI: MCURIValue, DISCORDAPI: DISCORDTOKENValue.length > 0 ? DISCORDTOKENValue : undefined  } },
+    variables: {
+      CONFIG: {
+        MCURI: MCURIValue,
+        DISCORDAPI: DISCORDTOKENValue.length > 0 ? DISCORDTOKENValue : undefined,
+        DISCORDCHANNEL: DISCORDCHANNELValue.length > 0 ? DISCORDCHANNELValue : undefined,
+      },
+    },
   });
 
   const updateSettings = async () => {
@@ -50,6 +58,14 @@ export const AdminSettings: AdminSettingsType = ({ MCURI, DISCORDAPI }) => {
         label='Discord Token'
         value={DISCORDTOKENValue}
         onChange={({ target }: ChangeEvent<HTMLInputElement>) => setDISCORDTOKENValue(target.value)}
+      />
+
+      <TextField
+        outlined
+        style={FieldStyle}
+        label='Discord Channe;'
+        value={DISCORDCHANNELValue}
+        onChange={({ target }: ChangeEvent<HTMLInputElement>) => setDISCORDCHANNELValue(target.value)}
       />
 
       <Button style={FieldStyle} raised onClick={updateSettings} label='Save' />

@@ -43,7 +43,7 @@ export const SearchModsList: SearchModsType = () => {
   return (
     <div style={FormStyle}>
       <TextField label='Search Mods' value={search} onChange={({ target }: ChangeEvent<HTMLInputElement>) => setSearch(target.value)} />
-      {data && data.searchMods ? data.searchMods.map((mod) => <ModCard {...mod} />) : <> </>}
+      {data && data.searchMods ? data.searchMods.map((mod) => <ModCard key={mod.id} {...mod} />) : <> </>}
     </div>
   )
 }

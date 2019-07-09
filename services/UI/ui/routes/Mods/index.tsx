@@ -2,6 +2,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import '@material/button/dist/mdc.button.min.css';
 import '@material/list/dist/mdc.list.min.css';
+import '@material/typography/dist/mdc.typography.min.css';
 import { Button } from '@rmwc/button';
 import { List, ListItem } from '@rmwc/list';
 import { Typography } from '@rmwc/typography';
@@ -12,8 +13,8 @@ import { FormStyle } from '~lib/styles';
 import MODSGQL from './Mods.graphql';
 
 interface ModType {
-  name: string
-  fileName: string
+  name: string;
+  fileName: string;
 }
 
 const ModsPage = () => {
@@ -27,7 +28,7 @@ const ModsPage = () => {
           <Button onClick={() => (window.location.href = '/mods.zip')} raised label='Download Mods Zip' />
           {data.listMods.length > 0 ? (
             <List>
-              {data.listMods.map(({  name, fileName }) => (
+              {data.listMods.map(({ name, fileName }) => (
                 <ListItem onClick={() => (window.location.href = `/downloadMod/${fileName}`)} key={name}>
                   {name}
                 </ListItem>

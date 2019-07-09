@@ -6,9 +6,7 @@ import { createWriteStream } from 'fs-extra';
 import { Readable } from 'stream';
 import { FileInput } from './FileType';
 import { findContainer, execRCON } from '../../../Utils/Docker';
-import { discordClient } from '../../../Discord';
-import { mcRCON } from '../../../RCON';
-import { TextChannel } from 'discord.js';
+import { mcRCON } from '../../../Utils/RCON';
 import pEvent from 'p-event';
 
 const MCPath = process.env.MCPath || '/minecraft';
@@ -49,26 +47,6 @@ export default class MinecraftAdminResolver {
     const { createReadStream, filename } = await file;
     const stream = createReadStream();
     await storeFSNew({ stream, filename });
-    return true;
-  }
-
-  @Authorized(['Admin'])
-  @Mutation(returns => Boolean)
-  public async restartServer() {
-    const cont = await findContainer();
-    const message = 'Minecraft Server restarting in 5 minutes';
-    const rawMessage = { text: message, color: 'red' };
-    if (discordClient.token) {
-      const channel = discordClient.channels.find(
-        // @ts-ignore
-        test => test.type === 'text' && test.name === 'minecraft-gang',
-      ) as TextChannel;
-      if (channel) await channel.send(message);
-    }
-    if (mcRCON) mcRCON.send(`/tellraw @a ${JSON.stringify(rawMessage)}`);
-    setTimeout(() => {
-      cont.restart();
-    }, 300000);
     return true;
   }
 

@@ -7,8 +7,7 @@ export const discordClient = new Client();
 
 @Discord
 abstract class MyDiscordApp {
-  @On('')
+  @On('message')
   private onMessage(message: Message) {
-    // ...
   }
 }
