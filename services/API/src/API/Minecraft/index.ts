@@ -5,7 +5,8 @@ import { MinecraftStatus } from './ServerStatus';
 import { StatusType } from './StatusType';
 import { findContainer } from '../../Utils/Docker';
 import { ModType } from './ModType';
-import { getMods } from './Admin/Mods/getMods'
+import { getMods } from './Admin/Mods/getMods';
+import { loadConfig } from '../../Models/Config';
 
 const MCPath = process.env.MCPath || '/minecraft';
 
@@ -18,20 +19,24 @@ export default class MinecraftResolver {
 
   @Query(returns => MinecraftStatus)
   public async getMCStatus() {
-    const q = new MCQuery({ host: 'mc.kristianjones.dev', port: 25565 });
+    const config = await loadConfig();
+    const q = new MCQuery({ host: config.MCURI, port: 25565 });
     return q.fullStat();
   }
 
   @Query(returns => StatusType)
   public async getStatus(): Promise<StatusType> {
-    const MCState = new MCQuery({ host: 'mc.kristianjones.dev', port: 25565 });
+    const config = await loadConfig();
+    const MCState = new MCQuery({ host: config.MCURI, port: 25565 });
     const cont = await findContainer();
     const { State } = await cont.inspect();
     const fmlline = 'Run the command /fml confirm or or /fml cancel to proceed.';
     const log = (await (<unknown>cont.logs({ follow: false, tail: 200, stdout: true }))) as string;
 
     // @ts-ignore
-    const health = log.includes(fmlline) && !log.includes('[FML]: confirmed') ? 'FMLConfirm' : State && State.Health && State.Health.Status;
+    const health =
+      // @ts-ignore
+      log.includes(fmlline) && !log.includes('[FML]: confirmed') ? 'FMLConfirm' : State && State.Health && State.Health.Status;
     return { online: State.Status === 'running', MCState: MCState.fullStat() as MinecraftStatus, health };
   }
 

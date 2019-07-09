@@ -73,6 +73,12 @@ const AdminBackupRoute = Loadable({
   loading: LoadingProgress,
 });
 
+const AdminSettingsRoute = Loadable({
+  loader: () => import('~routes/Admin/Settings'),
+  modules: ['routes/Admin/Settings/index.tsx'],
+  loading: LoadingProgress,
+});
+
 export interface ChildNavItem {
   label: string;
   path: string;
@@ -102,6 +108,7 @@ export const routes: NavItem[] = [
       { label: 'Search Mods', path: '/SearchMods', component: SearchModsRoute },
       { label: 'Configure Mods', path: '/ConfigMods', component: AdminConfigModRoute },
       { label: 'Tell Raw', path: '/TellRaw', component: AdminTellRawRoute },
+      { label: 'Settings', path: '/Settings', component: AdminSettingsRoute },
     ],
   },
   { label: 'Login', path: '/login', component: LoginRoute },

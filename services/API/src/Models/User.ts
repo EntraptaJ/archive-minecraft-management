@@ -1,3 +1,4 @@
+// API/src/Models/User.ts
 import { prop, Typegoose, pre, instanceMethod } from 'typegoose';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';

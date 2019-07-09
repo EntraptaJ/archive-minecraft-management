@@ -1,0 +1,5 @@
+mutation updateSettings($CONFIG: ConfigInput!) {
+  updateSettings(config: $CONFIG) {
+    MCURI
+  }
+}

@@ -1,0 +1,6 @@
+{
+  getSettings {
+    MCURI
+    DISCORDAPI
+  }
+}

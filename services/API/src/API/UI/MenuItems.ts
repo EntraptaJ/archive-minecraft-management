@@ -22,6 +22,7 @@ export const AdminMenu: MenuItem[] = [
       { label: 'Mod Management', path: '/Admin/Mods' },
       { label: 'Search Mods', path: '/Admin/SearchMods' },
       { label: 'Configure Mods', path: '/Admin/ConfigMods' },
+      { label: 'Settings', path: '/Admin/Settings' },
     ],
   },
 ];

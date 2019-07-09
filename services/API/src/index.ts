@@ -20,6 +20,7 @@ import { discordClient } from './Discord';
 import { TextChannel } from 'discord.js';
 import { connectRCON } from './RCON';
 import { findContainer } from './Utils/Docker';
+import { loadConfig } from './Models/Config';
 
 const port = 80;
 
@@ -86,7 +87,10 @@ const startWeb = async () => {
   return app;
 };
 
-const startDiscord = async () => process.env.DISCORD && discordClient.login(process.env.DISCORD, `${__dirname}/Discord/*.ts`);
+const startDiscord = async () => {
+  const config = await loadConfig()
+  if (config.DISCORDAPI) discordClient.login(config.DISCORDAPI, `${__dirname}/Discord/*.ts`)
+};
 
 const startAPI = async () => {
   console.log('Starting API');
