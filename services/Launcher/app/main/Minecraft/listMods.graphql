@@ -1,0 +1,6 @@
+{
+  listMods {
+    name
+    fileName
+  }
+}

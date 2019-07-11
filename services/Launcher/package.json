@@ -1,0 +1,138 @@
+{
+  "name": "electron-react-parcel-boilerplate",
+  "version": "0.7.7",
+  "description": "A boilerplate for Electron + React + Parcel.",
+  "main": "app/main/.parcel/main.js",
+  "scripts": {
+    "start": "run-s main:build watch",
+    "release": "run-s parcel:build \"electron:build {@}\" --",
+    "watch": "run-p -r parcel:watch electron:start",
+    "electron:start": "nodemon --watch app/main/.parcel --exec \"electron .\"",
+    "electron:build": "build -wm --x64 --publish=never",
+    "parcel:watch": "run-p -r main:watch renderer:watch",
+    "main:watch": "parcel watch app/main/main.ts --out-dir app/main/.parcel --out-file main --target electron",
+    "renderer:watch": "parcel app/renderer/index.html --port 1124 --out-dir app/renderer/.parcel/development",
+    "parcel:build": "run-s main:build renderer:build",
+    "main:build": "parcel build app/main/main.ts --out-dir app/main/.parcel --out-file main --target electron",
+    "renderer:build": "parcel build app/renderer/index.html --public-url ./ --out-dir app/renderer/.parcel/production",
+    "test": "run-s parcel:build \"test:jest {@}\" --",
+    "test:jest": "jest",
+    "lint": "tslint app/**/*.ts{,x}"
+  },
+  "browserslist": [
+    "current node"
+  ],
+  "author": "shamofu",
+  "license": "MIT",
+  "build": {
+    "productName": "ElectronReactParcel",
+    "appId": "org.shamofu.ElectronReactParcel",
+    "files": [
+      "app/**",
+      "!app/main/main.ts",
+      "!app/main/tests/**",
+      "!app/renderer/**",
+      "app/renderer/.parcel/production/**",
+      "!app/**/*.map"
+    ],
+    "mac": {
+      "target": [
+        "zip"
+      ],
+      "artifactName": "${productName}-mac.${ext}"
+    },
+    "win": {
+      "target": [
+        "zip"
+      ],
+      "artifactName": "${productName}-win.${ext}"
+    },
+    "linux": {
+      "target": [
+        "zip"
+      ],
+      "category": "Development",
+      "artifactName": "${productName}-linux.${ext}"
+    },
+    "directories": {
+      "output": "release"
+    }
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverageFrom": [
+      "app/renderer/**",
+      "!app/renderer/index.tsx",
+      "!app/renderer/tests/**",
+      "!app/renderer/.parcel/**"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "babel-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/download": "^6.2.4",
+    "@types/fs-extra": "^8.0.0",
+    "@types/jest": "^24.0.15",
+    "@types/klaw": "^3.0.0",
+    "@types/reach__router": "^1.2.4",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.8.0",
+    "electron": "^5.0.5",
+    "electron-builder": "^21.0.15",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.12.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-test-renderer": "^16.8.6",
+    "spectron": "^7.0.0",
+    "tslint": "^5.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "@reach/router": "^1.2.1",
+    "@rmwc/button": "^5.5.2",
+    "@rmwc/linear-progress": "^5.5.2",
+    "@rmwc/textfield": "^5.5.2",
+    "@rmwc/top-app-bar": "^5.5.2",
+    "@rmwc/typography": "^5.5.2",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link": "^1.2.12",
+    "apollo-link-http": "^1.5.15",
+    "app-root-path": "^2.2.1",
+    "download": "^7.1.0",
+    "electron-is-dev": "^1.1.0",
+    "fs-extra": "^8.1.0",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "isomorphic-unfetch": "^3.0.0",
+    "klaw": "^3.0.0",
+    "libminecraft": "^1.0.3",
+    "njre": "^0.2.0",
+    "node-fetch": "^2.6.0",
+    "p-event": "^4.1.0",
+    "tar": "^4.4.10",
+    "ts-minecraft": "^5.2.5",
+    "yauzl": "^2.10.0"
+  }
+}

@@ -138,3 +138,11 @@ typings/
 
 **/dist
 services/API/minecraft/**
+
+services/Launcher/.cache
+services/Launcher/coverage
+services/Launcher/app/renderer/.parcel
+services/Launcher/app/main/.parcel
+services/Launcher/*.map
+services/Launcher/release
+services/Launcher/minecraft/**
