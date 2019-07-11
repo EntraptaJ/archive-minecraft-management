@@ -66,7 +66,7 @@ const startWeb = async () => {
     await remove(tmpFile);
   });
 
-  router.get('/downloadMod/:modName', async (ctx, next) => {
+  router.get('/downloadMod/:modName*', async (ctx, next) => {
     const modName = ctx.params.modName;
     if (!modName) next();
     else await send(ctx, modName, { root: `${MCPath}/mods` });
