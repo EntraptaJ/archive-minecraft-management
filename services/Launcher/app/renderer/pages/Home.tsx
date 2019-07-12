@@ -1,10 +1,12 @@
-import React, { FunctionComponent, useState } from 'react';
-import { RouteComponentProps, Link } from '@reach/router';
+// Launcher/app/renderer/pages/Home.tsx
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { RouteComponentProps } from '@reach/router';
 import { Typography } from '@rmwc/typography';
 import { Button } from '@rmwc/button';
-import { ContainerStyle, FormStyle } from '../lib/styles';
+import { FormStyle } from '../lib/styles';
 import { LinearProgress } from '@rmwc/linear-progress';
 import '@material/linear-progress/dist/mdc.linear-progress.css';
+import { navigate } from '../router';
 
 // @ts-ignore
 const { ipcRenderer } = window.require('electron') as { ipcRenderer: Electron.IpcRenderer };
@@ -24,8 +26,13 @@ ipcRenderer.on('statusUpdate', (event, message: ProgressStatus) => setResFN(mess
 
 export const RootApp: RootAppType = () => {
   const [isInstalled, setIsInstalled] = useState<boolean>(ipcRenderer.sendSync('checkInstall'));
+  const [isAuthed, setIsAuthed] = useState<boolean>(ipcRenderer.sendSync('checkAuth'));
   const [status, setStatus] = useState<ProgressStatus>();
   setResFN = state => setStatus(state);
+
+  ipcRenderer.on('loginUserResponse', () => setIsAuthed(ipcRenderer.sendSync('checkAuth')))
+
+  useEffect(() => setIsAuthed(ipcRenderer.sendSync('checkAuth')), [])
 
   const onClick = async () => {
     if (isInstalled) ipcRenderer.send('launchGame');
@@ -43,8 +50,11 @@ export const RootApp: RootAppType = () => {
         </>
       )}
 
-      <Link to='/Login'>Login</Link>
-      <Button raised label={isInstalled ? 'Launch Game' : 'Install Game'} onClick={onClick} />
+      {isAuthed ? (
+        <Button style={{ marginTop: '1em' }} raised label={isInstalled ? 'Launch Game' : 'Install Game'} onClick={onClick} />
+      ) : (
+        <Button style={{ marginTop: '1em' }} raised label='Login' onClick={() => navigate('/Login')} />
+      )}
     </div>
   );
 };

@@ -44,7 +44,6 @@ export const installGame = async () => {
   const path = await installJava();
   await installMinecraft();
   await installForge();
-  sendStatus({ stage: 'Launching', progress: 1 })
 
   return path;
 };

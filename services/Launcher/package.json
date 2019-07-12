@@ -8,7 +8,7 @@
     "release": "run-s parcel:build \"electron:build {@}\" --",
     "watch": "run-p -r parcel:watch electron:start",
     "electron:start": "nodemon --watch app/main/.parcel --exec \"electron .\"",
-    "electron:build": "build -wm --x64 --publish=never",
+    "electron:build": "electron-builder -wm --x64 --publish=never",
     "parcel:watch": "run-p -r main:watch renderer:watch",
     "main:watch": "parcel watch app/main/main.ts --out-dir app/main/.parcel --out-file main --target electron",
     "renderer:watch": "parcel app/renderer/index.html --port 1124 --out-dir app/renderer/.parcel/development",
@@ -22,11 +22,11 @@
   "browserslist": [
     "current node"
   ],
-  "author": "shamofu",
+  "author": "KristianFJones",
   "license": "MIT",
   "build": {
-    "productName": "ElectronReactParcel",
-    "appId": "org.shamofu.ElectronReactParcel",
+    "productName": "MCLauncher",
+    "appId": "dev.kristianjones.mc",
     "files": [
       "app/**",
       "!app/main/main.ts",
@@ -111,7 +111,10 @@
   "dependencies": {
     "@reach/router": "^1.2.1",
     "@rmwc/button": "^5.5.2",
+    "@rmwc/drawer": "^5.5.2",
     "@rmwc/linear-progress": "^5.5.2",
+    "@rmwc/list": "^5.5.2",
+    "@rmwc/slider": "^5.5.2",
     "@rmwc/textfield": "^5.5.2",
     "@rmwc/top-app-bar": "^5.5.2",
     "@rmwc/typography": "^5.5.2",

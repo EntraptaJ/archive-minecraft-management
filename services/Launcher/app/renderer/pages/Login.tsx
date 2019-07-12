@@ -10,6 +10,7 @@ import '@material/typography/dist/mdc.typography.css';
 import { RouteComponentProps } from '@reach/router';
 import { MainStyle, FormStyle, FieldStyle } from '../lib/styles';
 import { Button } from '@rmwc/button';
+import { navigate } from '../router';
 
 // @ts-ignore
 const { ipcRenderer } = window.require('electron') as { ipcRenderer: Electron.IpcRenderer };
@@ -22,10 +23,11 @@ export const LoginPage: LoginPageType = () => {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  ipcRenderer.on('newSession', (a, { successful }) => console.log(successful));
+  ipcRenderer.on('loginUserResponse', (a, { successful }) => console.log(successful));
 
   const onClick = async () => {
     ipcRenderer.send('loginUser', { username, password });
+    navigate('/')
   };
 
   return (

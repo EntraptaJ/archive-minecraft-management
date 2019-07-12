@@ -3,11 +3,12 @@ import klaw from 'klaw';
 import pEvent from 'p-event';
 import path from 'path';
 import { apolloClient } from '../lib/initApollo';
-import download from 'download'
+import download from 'download';
 
 import GETMODSGQL from './listMods.graphql';
 import { gameFolderPath } from './InstallGame';
 import { loadConfig } from '../App/Settings';
+import { ensureDir } from 'fs-extra';
 
 interface Mod {
   name: string;
@@ -15,7 +16,7 @@ interface Mod {
 }
 export const listServerMods = async () => {
   const { data } = await apolloClient.query<{ listMods: Mod[] }>({ query: GETMODSGQL });
-  return data.listMods.map(({ name, fileName}) => ({ name, fileName }));
+  return data.listMods.map(({ name, fileName }) => ({ name, fileName }));
 };
 
 export const listClientMods = async (): Promise<Mod[]> => {
@@ -43,20 +44,18 @@ export const listClientMods = async (): Promise<Mod[]> => {
   return mods.sort((a, b) => a.name.localeCompare(b.name));
 };
 
-
 export const getMissingMods = async () => {
   const serverMods = await listServerMods();
   const clientMods = await listClientMods();
-  return serverMods.filter((sMod) => !clientMods.some((cMod) => JSON.stringify(cMod) === JSON.stringify(sMod)))
-}
+  return serverMods.filter(sMod => !clientMods.some(cMod => JSON.stringify(cMod) === JSON.stringify(sMod)));
+};
 
 export const installMissingMods = async () => {
-  const { serverURL } = await loadConfig()
-  const missingMods = await getMissingMods()
+  await ensureDir(`${gameFolderPath}/mods`);
+  const { serverURL } = await loadConfig();
+  const missingMods = await getMissingMods();
   for (const mod of missingMods) {
-    console.log(`Download URL: ${serverURL}/downloadMod/${mod.fileName}\nDownload to: ${gameFolderPath}/mods`)
-    await download(`${serverURL}/downloadMod/${mod.fileName}`, `${gameFolderPath}/mods`)
-    
+    console.log(`Download URL: ${serverURL}/downloadMod/${mod.fileName}\nDownload to: ${gameFolderPath}/mods`);
+    await download(`${serverURL}/downloadMod/${mod.fileName}`, `${gameFolderPath}/mods`);
   }
-
-}
+};

@@ -14,17 +14,18 @@ import '@material/top-app-bar/dist/mdc.top-app-bar.min.css';
 
 interface AppBarProps {
   appName: string;
+  onNavClick: (evt: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 type AppBarType = FunctionComponent<AppBarProps>;
 
-export const AppBar: AppBarType = ({ children, appName }) => {
+export const AppBar: AppBarType = ({ children, appName, onNavClick }) => {
   return (
     <>
       <TopAppBar fixed className='app__top-app-bar'>
         <TopAppBarRow>
           <TopAppBarSection alignStart>
-            <TopAppBarNavigationIcon icon='menu' />
+            <TopAppBarNavigationIcon icon='menu' onClick={onNavClick}  />
             <TopAppBarTitle tag={Link} {...{ to: '/' }}>
               {appName}
             </TopAppBarTitle>
