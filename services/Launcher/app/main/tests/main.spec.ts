@@ -14,7 +14,7 @@ beforeEach(async () => {
 })
 
 test('application title', async () => {
-  expect(await app.client.getTitle()).toBe('Electron-React-Parcel-Boilerplate')
+  expect(await app.client.getTitle()).toBe('MC Launcher')
 })
 
 test('go to Start', async () => {
