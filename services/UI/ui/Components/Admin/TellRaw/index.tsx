@@ -1,29 +1,15 @@
-import '@material/button/dist/mdc.button.min.css';
-import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
-import '@material/typography/dist/mdc.typography.min.css';
-import '@material/select/dist/mdc.select.css';
-import '@material/floating-label/dist/mdc.floating-label.css';
-import '@material/notched-outline/dist/mdc.notched-outline.css';
-import '@material/line-ripple/dist/mdc.line-ripple.css';
-import '@material/list/dist/mdc.list.css';
-import '@material/menu/dist/mdc.menu.css';
-import '@material/menu-surface/dist/mdc.menu-surface.css';
-import { Button } from '@rmwc/button';
-import { TextField, TextFieldHelperText } from '@rmwc/textfield';
-import { Typography } from '@rmwc/typography';
-import React, { useEffect, useState, ChangeEvent } from 'react';
-import useForm from 'react-hook-form';
 import { useMutation } from '@apollo/react-hooks';
-import TELLRAWGQL from './tellRaw.graphql';
-import { MutationResponse } from '~Components/types';
-import { FieldStyle, FormStyle } from '~lib/styles';
-import { Layout } from '~Components/Layout';
+import { Button } from '@rmwc/button';
 import { Select } from '@rmwc/select';
-
-
+import { TextField } from '@rmwc/textfield';
+import { Typography } from '@rmwc/typography';
+import React, { ChangeEvent, useState } from 'react';
+import useForm from 'react-hook-form';
+import { Layout } from 'ui/Components/Layout';
+import { MutationResponse } from 'ui/Components/types';
+import { FieldStyle, FormStyle } from 'ui/lib/styles';
+import './TellRaw.css';
+import TELLRAWGQL from './tellRaw.graphql';
 
 interface FormData {
   Username: string;
@@ -50,7 +36,14 @@ export const TellRawForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} style={FormStyle}>
         <Typography use='headline4'>Tell Raw</Typography>
 
-        <TextField outlined label='Text' name='Username' autoComplete='username' style={{ ...FieldStyle, marginBottom: '1em' }} inputRef={register} />
+        <TextField
+          outlined
+          label='Text'
+          name='Username'
+          autoComplete='username'
+          style={{ ...FieldStyle, marginBottom: '1em' }}
+          inputRef={register}
+        />
 
         <Select
           outlined
@@ -59,8 +52,8 @@ export const TellRawForm = () => {
             { label: 'Black', value: 'black' },
             { label: 'Dark Blue', value: 'dark_blue' },
             { label: 'Dark Green', value: 'dark_green' },
-            { label: 'Dark Aqua', value: 'dark_aqua'},
-            { label: 'Red', value: 'red'}
+            { label: 'Dark Aqua', value: 'dark_aqua' },
+            { label: 'Red', value: 'red' },
           ]}
           value={color}
           onChange={({ target }: ChangeEvent<HTMLInputElement>) => target.value}

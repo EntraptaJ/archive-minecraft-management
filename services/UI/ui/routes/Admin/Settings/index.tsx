@@ -1,11 +1,11 @@
 // UI/ui/routes/Admin/Settings/index.tsx
-import React, { FunctionComponent } from 'react';
-import { Settings, AdminSettings } from '~Components/Admin/Settings';
-import { RouteComponentProps } from '@reach/router';
-import GETSETTINGSGQL from './getSettings.graphql';
 import { useQuery } from '@apollo/react-hooks';
-import { Layout } from '~Components/Layout';
-import { LoadingProgress } from '~Components/Loading';
+import { RouteComponentProps } from '@reach/router';
+import React, { FunctionComponent } from 'react';
+import { AdminSettings, Settings } from 'ui/Components/Admin/Settings';
+import { Layout } from 'ui/Components/Layout';
+import { LoadingProgress } from 'ui/Components/Loading';
+import GETSETTINGSGQL from './getSettings.graphql';
 
 interface AdminSettingsRouteProps extends RouteComponentProps {}
 

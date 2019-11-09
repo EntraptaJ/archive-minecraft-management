@@ -1,9 +1,7 @@
+import { CircularProgress } from '@rmwc/circular-progress';
 import React from 'react';
 import { style } from 'typestyle';
-
-import { CircularProgress } from '@rmwc/circular-progress';
-
-import '@rmwc/circular-progress/circular-progress.css';
+import './Loading.css';
 
 const LoaderStyle = style({
   position: 'fixed',

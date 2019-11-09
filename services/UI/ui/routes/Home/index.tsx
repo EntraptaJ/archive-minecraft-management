@@ -1,17 +1,15 @@
 // UI/ui/routes/Home/index.tsx
-import React, { FunctionComponent } from 'react';
-import { Typography } from '@rmwc/typography';
-import { RouteComponentProps, navigate } from '@reach/router';
-import '@material/typography/dist/mdc.typography.min.css';
-import '@material/button/dist/mdc.button.min.css';
-import '@material/list/dist/mdc.list.min.css';
-import { FormStyle } from '~lib/styles';
-import GETSTATUSGQL from './getStatus.graphql';
-import { List, ListItem } from '@rmwc/list';
 import { useQuery } from '@apollo/react-hooks';
+import { navigate, RouteComponentProps } from '@reach/router';
 import { Button } from '@rmwc/button';
-import { Layout } from '~Components/Layout';
-import { LoadingProgress } from '~Components/Loading';
+import { List, ListItem } from '@rmwc/list';
+import { Typography } from '@rmwc/typography';
+import React, { FunctionComponent } from 'react';
+import { Layout } from 'ui/Components/Layout';
+import { LoadingProgress } from 'ui/Components/Loading';
+import { FormStyle } from 'ui/lib/styles';
+import GETSTATUSGQL from './getStatus.graphql';
+import './Home.css';
 
 interface Status {
   online: boolean;

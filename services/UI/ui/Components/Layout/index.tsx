@@ -1,13 +1,9 @@
 // UI/ui/Components/Admin/Layout.tsx
-import React, { FunctionComponent, useContext } from 'react';
-import '@material/theme/dist/mdc.theme.min.css';
-import { MainStyle } from '~lib/styles';
-import { DrawerAppContent } from '@rmwc/drawer';
-import { getProp, PropContext } from '~Prop';
-import ISADMINGQL from './isAdmin.graphql';
 import { Redirect } from '@reach/router';
-import { LoadingProgress } from '~Components/Loading';
-import '@material/drawer/dist/mdc.drawer.min.css';
+import React, { FunctionComponent, useContext } from 'react';
+import { getProp, PropContext } from 'ui/Components/PropProvider';
+import ISADMINGQL from './isAdmin.graphql';
+import './Layout.css';
 
 interface LayoutProps {
   admin?: boolean;
@@ -30,9 +26,9 @@ const getAdminProps: getProp = async (req, client) => {
 export const Layout: LayoutType = ({ children, admin = false }) => {
   const { useProps, props } = useContext(PropContext);
 
-  useProps(admin ? getAdminProps : async () => {});
+  useProps(admin === true ? getAdminProps : async () => {});
 
   if (!admin || props.admin === true) return <>{children}</>;
   else if (admin && props.admin === false) return <Redirect to='/' />;
-  else return <LoadingProgress />;
+  else return <></>;
 };

@@ -1,12 +1,11 @@
 // UI/ui/Components/Admin/RestartServer/index.tsx
-import React, { FunctionComponent, useState } from 'react';
-import { Button } from '@rmwc/button';
-import { Dialog, DialogTitle, DialogButton, DialogContent, DialogActions } from '@rmwc/dialog';
-import '@material/dialog/dist/mdc.dialog.min.css';
-import '@material/button/dist/mdc.button.min.css';
-import STOPGQL from './stopServer.graphql';
 import { useMutation } from '@apollo/react-hooks';
+import { Button } from '@rmwc/button';
 import { CircularProgress } from '@rmwc/circular-progress';
+import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from '@rmwc/dialog';
+import React, { FunctionComponent, useState } from 'react';
+import './StopServer.css';
+import STOPGQL from './stopServer.graphql';
 
 interface StopServerProps {}
 

@@ -2,27 +2,27 @@
 import { MenuItem } from './MenuItemType';
 
 export const MainMenu: MenuItem[] = [
-  { label: 'Home', path: '/' },
-  { label: 'Login', path: '/login' },
-  { label: 'Register', path: '/register' },
+  { ID: 1 },
+  { ID: 2 },
+  { ID: 4 },
+  { ID: 5 },
 ];
 
-export const UserMenu: MenuItem[] = [{ label: 'Home', path: '/' }, { label: 'Mods', path: '/mods' }];
+export const UserMenu: MenuItem[] = [{ ID: 1 }, { ID: 2 }];
 
 export const AdminMenu: MenuItem[] = [
   ...UserMenu,
   {
-    label: 'Admin',
-    path: '/Admin',
-    options: [
-      { label: 'Main', path: '/Admin' },
-      { label: 'Server Console', path: '/Admin/Console' },
-      { label: 'Backups', path: '/Admin/Backups'},
-      { label: 'Server Logs', path: '/Admin/Logs' },
-      { label: 'Mod Management', path: '/Admin/Mods' },
-      { label: 'Search Mods', path: '/Admin/SearchMods' },
-      { label: 'Configure Mods', path: '/Admin/ConfigMods' },
-      { label: 'Settings', path: '/Admin/Settings' },
+    ID: 3,
+    children: [
+      { ID: 1 },
+      { ID: 2 },
+      { ID: 3 },
+      { ID: 4 },
+      { ID: 5 },
+      { ID: 6 },
+      { ID: 7 },
+      { ID: 8 }
     ],
   },
 ];

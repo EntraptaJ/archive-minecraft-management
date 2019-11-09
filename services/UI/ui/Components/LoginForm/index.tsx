@@ -1,20 +1,15 @@
-import '@material/button/dist/mdc.button.min.css';
-import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
-import '@material/typography/dist/mdc.typography.min.css';
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Button } from '@rmwc/button';
 import { TextField, TextFieldHelperText } from '@rmwc/textfield';
 import { Typography } from '@rmwc/typography';
-import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
 import useForm from 'react-hook-form';
-import { useMutation, useApolloClient } from '@apollo/react-hooks';
+import { Layout } from 'ui/Components/Layout';
+import { MutationResponse } from 'ui/Components/types';
+import { FieldStyle, FormStyle } from 'ui/lib/styles';
 import LOGIN_GQL from './LOGIN.graphql';
-import { MutationResponse } from '~Components/types';
-import { FieldStyle, FormStyle } from '~lib/styles';
-import { Layout } from '~Components/Layout';
+import './LoginForm.css';
 
 interface FormData {
   Username: string;
@@ -44,9 +39,9 @@ export const LoginForm = () => {
         if (response.data.loginUser.sucess === false) console.log(response);
         else {
           Cookies.set('token', response.data.loginUser.token, { expires: 30 });
-          await client.clearStore()
+          await client.clearStore();
           await client.resetStore();
-          window.location.href = '/'
+          window.location.href = '/';
         }
       } else console.error('Token not recieved');
     } catch (e) {}

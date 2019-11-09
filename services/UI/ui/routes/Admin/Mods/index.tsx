@@ -1,9 +1,8 @@
 // UI/ui/routes/Admin/Mods.tsx
-import React, { FunctionComponent } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Layout } from '~Components/Layout';
-import '@material/typography/dist/mdc.typography.min.css';
-import { AdminModManagement } from '~Components/Admin/Mods';
+import React, { FunctionComponent } from 'react';
+import { AdminModManagement } from 'ui/Components/Admin/Mods';
+import { Layout } from 'ui/Components/Layout';
 
 interface AdminPageProps extends RouteComponentProps {}
 

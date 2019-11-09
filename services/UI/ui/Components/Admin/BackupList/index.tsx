@@ -1,16 +1,12 @@
 // UI/ui/Components/Admin/BackupList/index.tsx
-import React, { FunctionComponent, useState } from 'react';
-
-import '@material/list/dist/mdc.list.css';
-import '@material/menu/dist/mdc.menu.min.css';
-import '@material/menu-surface/dist/mdc.menu-surface.min.css';
-import '@material/dialog/dist/mdc.dialog.min.css';
 import { useMutation } from '@apollo/react-hooks';
-import RESTOREBACKUPGQL from './restoreBackup.graphql';
+import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from '@rmwc/dialog';
+import { List, ListItem, ListItemMeta, ListItemPrimaryText, ListItemSecondaryText, ListItemText } from '@rmwc/list';
+import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
 import moment from 'moment';
-import { List, ListItem, ListItemMeta, ListItemText, ListItemPrimaryText, ListItemSecondaryText } from '@rmwc/list';
-import { MenuSurfaceAnchor, Menu, MenuItem } from '@rmwc/menu';
-import { Dialog, DialogTitle, DialogActions, DialogButton, DialogContent } from '@rmwc/dialog';
+import React, { FunctionComponent, useState } from 'react';
+import './BackupList.css';
+import RESTOREBACKUPGQL from './restoreBackup.graphql';
 
 interface Backup {
   name: string;

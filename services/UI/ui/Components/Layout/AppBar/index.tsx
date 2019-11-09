@@ -1,31 +1,24 @@
 // UI/ui/Components/Layout/AppBar/index.tsx
-import React, { FunctionComponent } from 'react';
-import {
-  TopAppBar,
-  TopAppBarNavigationIcon,
-  TopAppBarRow,
-  TopAppBarSection,
-  TopAppBarTitle,
-  TopAppBarFixedAdjust,
-} from '@rmwc/top-app-bar';
 import { Link } from '@reach/router';
-
-import '@material/top-app-bar/dist/mdc.top-app-bar.min.css';
+import { TopAppBar, TopAppBarFixedAdjust, TopAppBarRow, TopAppBarSection, TopAppBarTitle } from '@rmwc/top-app-bar';
+import React, { FunctionComponent } from 'react';
+import './AppBar.css';
 
 interface AppBarProps {
   appName: string;
-  onNavClick: (evt: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 type AppBarType = FunctionComponent<AppBarProps>;
 
-export const AppBar: AppBarType = ({ children, onNavClick, appName }) => {
+export const AppBar: AppBarType = ({ appName }) => {
   return (
     <>
       <TopAppBar fixed className='app__top-app-bar'>
         <TopAppBarRow>
           <TopAppBarSection alignStart>
-            <TopAppBarNavigationIcon onClick={onNavClick} icon='menu' />
+            <section id='navActions'>
+              <></>
+            </section>
             <TopAppBarTitle tag={Link} {...{ to: '/' }}>
               {appName}
             </TopAppBarTitle>
@@ -36,3 +29,5 @@ export const AppBar: AppBarType = ({ children, onNavClick, appName }) => {
     </>
   );
 };
+
+export default AppBar;

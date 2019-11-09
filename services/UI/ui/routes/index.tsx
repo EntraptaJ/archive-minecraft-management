@@ -1,21 +1,31 @@
-import React, { ReactNode } from 'react';
-import { Router } from '@reach/router';
-import { routes, NavItem } from '~Components/Routes';
+// UI/ui/routes/index.tsx
+import React, { FunctionComponent, ReactNode } from 'react';
+import { Router, RouteComponentProps } from '@reach/router';
+import { routes, NavItem } from 'ui/Components/Routes';
 
-const HandleRoutes = (routes: NavItem[], parent?: string): ReactNode => {
+const Parent: FunctionComponent<RouteComponentProps> = ({ children }) => <>{children}</>;
+
+const HandleRoutes = (routes: NavItem[]): ReactNode[] => {
   return routes.map(Route =>
-    'options' in Route ? (
-      HandleRoutes(Route.options, Route.path)
+    Route.children ? (
+      <Parent path={Route.path} key={Route.path}>
+        <Route.Loadable path='/' key={Route.path} />
+        {...HandleRoutes(Route.children)}
+      </Parent>
     ) : (
-      <Route.component
-        path={parent ? `${parent}${Route.path}` : Route.path.replace(/(?<=\S)\//, '/*')}
-        key={parent ? `${parent}${Route.path}` : Route.path}
-      />
+      <Route.Loadable path={Route.path} key={Route.path} />
     ),
   );
 };
 
-export const Routes = () => {
+type RoutesType = FunctionComponent;
 
-  return <Router component='main' className='app__content mdc-drawer-app-content'>{HandleRoutes(routes)}</Router>;
+export const Routes: RoutesType = () => {
+  return (
+    <>
+      <Router component='main' className='app__content mdc-drawer-app-content'>
+        {HandleRoutes(routes)}
+      </Router>
+    </>
+  );
 };

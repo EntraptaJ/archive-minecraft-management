@@ -1,23 +1,17 @@
 // UI/ui/Components/Admin/Mods/index.tsx
-import React, { FunctionComponent, useState, ChangeEvent } from 'react';
-import { List, ListItemMeta, ListItem } from '@rmwc/list';
-import MODSGQL from './Mods.graphql';
-import '@material/list/dist/mdc.list.min.css';
-import '@material/menu/dist/mdc.menu.min.css';
-import '@material/menu-surface/dist/mdc.menu-surface.min.css';
-import '@material/dialog/dist/mdc.dialog.min.css';
-import '@material/typography/dist/mdc.typography.min.css';
-import '@material/icon-button/dist/mdc.icon-button.min.css';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { FormStyle } from '~lib/styles';
-import { MenuSurfaceAnchor, Menu, MenuItem } from '@rmwc/menu';
-import { Dialog, DialogTitle, DialogActions, DialogButton, DialogContent } from '@rmwc/dialog';
-import './style.css';
-import UPLOADMODGQL from './UploadMod.graphql';
-import DELETEMODGQL from './deleteMod.graphql';
-import TOGGLEMODGQL from './toggleMod.graphql';
-import { Typography } from '@rmwc/typography';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from '@rmwc/dialog';
 import { IconButton } from '@rmwc/icon-button';
+import { List, ListItem, ListItemMeta } from '@rmwc/list';
+import { Menu, MenuItem, MenuSurfaceAnchor } from '@rmwc/menu';
+import { Typography } from '@rmwc/typography';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { FormStyle } from 'ui/lib/styles';
+import DELETEMODGQL from './deleteMod.graphql';
+import MODSGQL from './Mods.graphql';
+import './style.css';
+import TOGGLEMODGQL from './toggleMod.graphql';
+import UPLOADMODGQL from './UploadMod.graphql';
 
 interface ModItemProps {
   name: string;
@@ -92,7 +86,6 @@ interface ModType extends ModItemProps {
 
 export const AdminModManagement = () => {
   const { data, loading, refetch } = useQuery<{ listMods: ModType[] }>(MODSGQL);
-  const [modName, setModName] = useState();
   const [uploadMod] = useMutation<{}, { file: any }>(UPLOADMODGQL);
   const [toggleModFN] = useMutation<{}, { modName: string }>(TOGGLEMODGQL);
 
@@ -115,11 +108,7 @@ export const AdminModManagement = () => {
         >
           Mods
         </Typography>
-        <IconButton
-          style={{ alignSelf: 'flex-end', marginLeft: 'auto' }}
-          icon='refresh'
-          onClick={() => refetch()}
-        />
+        <IconButton style={{ alignSelf: 'flex-end', marginLeft: 'auto' }} icon='refresh' onClick={() => refetch()} />
       </div>
       <List style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
         {loading ? (

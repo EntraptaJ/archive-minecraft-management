@@ -3,7 +3,7 @@ import ParcelBundler from 'parcel-bundler';
 import run from './run';
 import { entryPointHandler, CSS } from './CSSManifest';
 import { generateFragement } from './ApolloFragement';
-
+import resizer from 'node-image-resizer'
 
 export async function build(watch: boolean = false) {
   await remove('dist');
@@ -13,8 +13,6 @@ export async function build(watch: boolean = false) {
 
   await copy('package.json', 'dist/package.json');
   await copy('package-lock.json', 'dist/package-lock.json');
-
-  await run('tsc --build src/tsconfig.json');
 
   const bundler = new ParcelBundler('ui/client.tsx', {
     outDir: 'dist/public',
@@ -30,14 +28,16 @@ export async function build(watch: boolean = false) {
     bundler.options.entryFiles.length > 1 ? bundle.childBundles.forEach(entryPointHandler) : entryPointHandler(bundle),
   );
 
-  const serverbundler = new ParcelBundler(['ui/server.urls'], {
+  await bundler.bundle();
+
+  process.env['BABEL_ENV'] = 'server';
+  const serverbundler = new ParcelBundler(['server/index.ts', 'server/server.urls'], {
     outDir: 'dist/server',
     watch,
     target: 'node',
     contentHash: true,
-    cache: false,
-    bundleNodeModules: true,
     sourceMaps: false,
+    cache: false,
   });
 
   serverbundler.on('bundled', bundle =>
@@ -45,7 +45,31 @@ export async function build(watch: boolean = false) {
     bundler.options.entryFiles.length > 1 ? bundle.childBundles.forEach(entryPointHandler) : entryPointHandler(bundle),
   );
 
-  await bundler.bundle();
   await serverbundler.bundle();
   await writeJSON('dist/CSS.json', CSS);
+  await generateIcons()
 }
+
+async function generateIcons() {
+  const setup = {
+    all: {
+      path: 'dist/public/',
+      quality: 100
+    },
+    versions: [
+      {
+        prefix: '192',
+        width: 192,
+        height: 192
+      },
+      {
+        quality: 100,
+        prefix: '512',
+        width: 512,
+        height: 512
+      }
+    ]
+  };
+
+  const thumbs = await resizer('icons/main.png', setup);
+};

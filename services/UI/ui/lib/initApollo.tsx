@@ -1,11 +1,11 @@
 // UI/ui/lib/initApollo.tsx
+import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink, split } from 'apollo-link';
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { WebSocketLink } from 'apollo-link-ws';
-import WS from 'ws';
-import { OperationDefinitionNode } from 'graphql';
 import { createUploadLink } from 'apollo-upload-client';
+import { OperationDefinitionNode } from 'graphql';
+import WS from 'ws';
 
 interface InitClientParams {
   baseUrl: string;
@@ -21,7 +21,7 @@ export const initApollo = ({ baseUrl, initialState, token }: InitClientParams) =
 
   // Create a WebSocket link:
   const wsLink = new WebSocketLink({
-    uri: `${baseUrl.replace('https://', 'wss://')}/graphql`,
+    uri: `ws://localhost/graphql`,
     options: {
       lazy: true,
       reconnect: true,

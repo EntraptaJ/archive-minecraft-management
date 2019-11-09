@@ -1,3 +1,10 @@
+@import '@material/list/dist/mdc.list.min.css';
+@import '@material/menu/dist/mdc.menu.min.css';
+@import '@material/menu-surface/dist/mdc.menu-surface.min.css';
+@import '@material/dialog/dist/mdc.dialog.min.css';
+@import '@material/typography/dist/mdc.typography.min.css';
+@import '@material/icon-button/dist/mdc.icon-button.min.css';
+
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;

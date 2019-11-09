@@ -1,11 +1,5 @@
 // UI/ui/Components/SearchMods/ModCard/index.tsx
 import { useMutation } from '@apollo/react-hooks';
-import '@material/button/dist/mdc.button.min.css';
-import '@material/card/dist/mdc.card.min.css';
-import '@material/dialog/dist/mdc.dialog.min.css';
-import '@material/icon-button/dist/mdc.icon-button.min.css';
-import '@material/snackbar/dist/mdc.snackbar.min.css';
-import '@material/typography/dist/mdc.typography.min.css';
 import {
   Card,
   CardActionButton,
@@ -15,13 +9,13 @@ import {
   CardActions,
   CardPrimaryAction,
 } from '@rmwc/card';
-import { Snackbar, SnackbarAction } from '@rmwc/snackbar';
 import { CircularProgress } from '@rmwc/circular-progress';
-import '@rmwc/circular-progress/circular-progress.css';
 import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from '@rmwc/dialog';
+import { Snackbar, SnackbarAction } from '@rmwc/snackbar';
 import { Typography } from '@rmwc/typography';
 import React, { FunctionComponent, useState } from 'react';
 import DOWNLOADMODGQL from './downloadCurseMod.graphql';
+import './ModCard.css';
 
 interface TwitchFile {
   fileName: string;
@@ -85,8 +79,7 @@ export const ModCard: ModCardType = ({ name, id, summary, authors: [{ name: auth
         onClose={async evt => {
           if (evt.detail.action === 'confirm') await downloadMod();
           await setDialog(false);
-          await setFinished(true)
-
+          await setFinished(true);
         }}
       >
         <DialogTitle>Download {name}</DialogTitle>

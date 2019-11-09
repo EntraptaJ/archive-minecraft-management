@@ -1,0 +1,8 @@
+{
+  getNav {
+    ID
+    children {
+      ID
+    }
+  }
+}

@@ -1,21 +1,19 @@
 // UI/ui/routes/Mods/index.tsx
 import { useQuery } from '@apollo/react-hooks';
-import '@material/button/dist/mdc.button.min.css';
-import '@material/list/dist/mdc.list.min.css';
-import '@material/typography/dist/mdc.typography.min.css';
 import { Button } from '@rmwc/button';
 import { List, ListItem } from '@rmwc/list';
 import { Typography } from '@rmwc/typography';
 import React from 'react';
-import { Layout } from '~Components/Layout';
-import { LoadingProgress } from '~Components/Loading';
-import { FormStyle } from '~lib/styles';
+import { Layout } from 'ui/Components/Layout';
+import { LoadingProgress } from 'ui/Components/Loading';
+import { FormStyle } from 'ui/lib/styles';
+import './Mods.css';
 import MODSGQL from './Mods.graphql';
 
 interface ModType {
   name: string;
   fileName: string;
-  disabled: boolean
+  disabled: boolean;
 }
 
 const ModsPage = () => {

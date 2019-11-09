@@ -1,12 +1,10 @@
 // UI/ui/routes/Admin/Backups/BackupDialog/index.tsx
 import { useMutation } from '@apollo/react-hooks';
-import '@material/dialog/dist/mdc.dialog.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
 import { CircularProgress } from '@rmwc/circular-progress';
-import '@rmwc/circular-progress/circular-progress.css';
 import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from '@rmwc/dialog';
 import { TextField } from '@rmwc/textfield';
 import React, { ChangeEvent, Dispatch, FunctionComponent, SetStateAction, useState } from 'react';
+import './BackupDialog.css';
 import CREATEBACKUPGQL from './createBackup.graphql';
 
 interface Backup {

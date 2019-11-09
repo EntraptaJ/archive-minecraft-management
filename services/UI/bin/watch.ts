@@ -1,3 +1,4 @@
 import { build } from './lib/build'
 
-build(true)
+const distServer = '../dist/server';
+build(true).then(() => import(distServer));

@@ -1,40 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Routes } from './routes/index';
-import './App.css';
-import { AppBar } from '~Components/Layout/AppBar';
-import { Nav, NavItemType } from '~Components/Layout/Nav';
-import GETNAVGQL from './Components/Layout/getNav.graphql';
+import React, { useContext, useState, useMemo } from 'react';
+import 'ui/App.css';
+import Loadable from 'react-loadable';
+import { Routes } from 'ui/routes/index';
+import { PropContext } from 'ui/Components/PropProvider';
+import { routes } from 'ui/Components/Routes';
+import { LoadingProgress } from '~Components/Loading';
+import { NavItemType } from 'ui/Components/Layout/Nav';
 import { useQuery } from '@apollo/react-hooks';
+import GETNAVGQL from 'ui/Components/Layout/Nav/getNav.graphql';
 
-export const App: React.FunctionComponent = () => {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [isMobileState, setIsMobileState] = useState(true);
+const AppBar = Loadable({
+  loader: () => import('ui/Components/Layout/AppBar'),
+  modules: ['Components/Layout/AppBar/index.tsx'],
+  loading: LoadingProgress,
+});
+
+const Nav = Loadable({
+  loader: () => import('ui/Components/Layout/Nav'),
+  modules: ['Components/Layout/Nav/index.tsx'],
+  loading: LoadingProgress,
+});
+
+const App: React.FunctionComponent = () => {
+  const { ctx } = useContext(PropContext);
   const { data } = useQuery<{ getNav: NavItemType[] }>(GETNAVGQL);
-  const doSizeCheck = (initial?: boolean) => {
-    const isMobile = window.innerWidth < 640;
-
-    if (isMobileState !== isMobile) {
-      setIsMobileState(isMobile);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', () => doSizeCheck());
-
-    doSizeCheck(false);
-  }, []);
+  const [usrPath] = useState(typeof ctx !== 'undefined' ? ctx.request.url : window.location.pathname);
+  const route = useMemo(() => routes.find(({ to }) => usrPath === to), [usrPath]);
 
   return (
     <>
-      <AppBar onNavClick={() => setMenuOpen(!menuOpen)} appName='Minecraft' />
-      <Nav
-        navItems={data ? data.getNav : [{ label: 'Home', path: '/' }]}
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        dismissible={!isMobileState}
-        modal={isMobileState}
-      />
-      <Routes />
+      {!route || !route.hideUI ? <AppBar appName='Minecraft' /> : <></>}
+      <div className='main-content' style={{ display: 'flex', flex: '1 1', position: 'relative' }}>
+        {!route || !route.hideUI ? <Nav items={data && data.getNav ? data.getNav : []} /> : <></>}
+        <Routes />
+      </div>
     </>
   );
 };
+
+export default App;

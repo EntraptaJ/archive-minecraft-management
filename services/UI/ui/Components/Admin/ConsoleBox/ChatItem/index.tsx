@@ -1,9 +1,8 @@
 // UI/ui/Components/Admin/ChatBox/ChatItem/index.tsx
-import React, { FunctionComponent } from 'react';
 import { Card } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
-import '@material/card/dist/mdc.card.min.css';
-import '@material/typography/dist/mdc.typography.min.css';
+import React, { FunctionComponent } from 'react';
+import './ChatItem.css';
 
 interface ChatItemProps {
   message: string;

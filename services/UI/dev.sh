@@ -1,2 +1,2 @@
-export APIURL="http://localhost"
-npm run dev
+export APIURL="http://192.168.254.179"
+npm run watch

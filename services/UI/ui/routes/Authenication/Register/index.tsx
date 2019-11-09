@@ -1,6 +1,6 @@
 // UI/ui/routes/Authenication/index.tsx
 import React from 'react';
-import { RegisterForm } from '~Components/RegisterForm';
+import { RegisterForm } from 'ui/Components/RegisterForm';
 
 const RegisterRoute = () => <RegisterForm />;
 

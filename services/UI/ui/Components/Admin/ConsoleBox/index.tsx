@@ -1,16 +1,13 @@
 // UI/ui/Components/Admin/ChatBox/index.tsx
-import React, { useState } from 'react';
-import SUBSCRIBEGQL from './subRCON.graphql';
-import SENDCOMMANDGQL from './sendCommand.graphql';
-import { useSubscription, useMutation } from '@apollo/react-hooks';
-import { FormStyle } from '~lib/styles';
-import { Typography } from '@rmwc/typography';
+import { useMutation, useSubscription } from '@apollo/react-hooks';
 import { TextField } from '@rmwc/textfield';
-import '@material/textfield/dist/mdc.textfield.min.css';
-import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
+import { Typography } from '@rmwc/typography';
+import React, { useState } from 'react';
+import { FormStyle } from 'ui/lib/styles';
 import { ChatItem } from './ChatItem';
+import './ConsoleBox.css';
+import SENDCOMMANDGQL from './sendCommand.graphql';
+import SUBSCRIBEGQL from './subRCON.graphql';
 
 export const AdminServerConsoleBox = () => {
   const [text, setText] = useState<string>('');
@@ -27,7 +24,7 @@ export const AdminServerConsoleBox = () => {
   };
 
   return (
-    <div style={{ ...FormStyle, maxWidth: '90vw' }}>
+    <div style={{ ...FormStyle, maxWidth: '89%' }}>
       <Typography use='headline4'>Minecraft Server Console</Typography>
       {loading ? (
         <Typography use='body1'>Loading</Typography>
@@ -36,8 +33,8 @@ export const AdminServerConsoleBox = () => {
           <div
             style={{
               overflowY: 'scroll',
-              height: '55vh',
-              maxWidth: '90vw'
+              height: '98%',
+              maxWidth: '90vw',
             }}
           >
             {history.map((string, index) => (

@@ -1,6 +1,7 @@
+// UI/ui/Components/PropProvider/index.tsx
+import { globalHistory, HistoryListenerParameter } from '@reach/router';
+import { Context } from 'koa';
 import React, { createContext, ReactNode, useState } from 'react';
-import { Request } from 'express';
-import { globalHistory } from '@reach/router';
 
 export let Props: Promise<any>;
 
@@ -15,7 +16,7 @@ export const resetProps = () => {
 };
 
 export type getProp = (
-  req?: import('express').Request,
+  ctx?: Context,
   client?: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>,
 ) => Promise<any>;
 
@@ -23,7 +24,7 @@ interface PropContextType {
   props: any;
   sessionProps: PathPropsObject[];
   useProps: (prop: getProp) => void;
-  req?: Request;
+  ctx?: Context;
   client?: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>;
 }
 
@@ -34,49 +35,63 @@ export const PropContext = createContext<PropContextType>({
   // @ts-ignore
   props: Props,
   sessionProps: [],
-  req: undefined,
+  ctx: undefined,
   client: undefined,
 });
 
 interface PropProviderProps {
   children: ReactNode;
-  req?: Request;
+  ctx?: Context;
   props: any;
   sessionProps: PathPropsObject[];
   client: import('apollo-client').ApolloClient<import('apollo-cache-inmemory').NormalizedCacheObject>;
 }
 
+export let setNewProps: (c: HistoryListenerParameter) => Promise<boolean>;
+
+export let setProps: (props: any) => void;
+
 const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const PropProvider = (prop: PropProviderProps) => {
-  const { req, children, sessionProps, client } = prop;
-  const [props, setProps] = useState(prop.props);
+  const { ctx, children, sessionProps, client } = prop;
+  const [pageProps, setPageProps] = useState(prop.props);
   const useProps = (newProp: getProp) => {
-    const oldProps = sessionProps.find(({ path: pth }) => pth === (req ? req.path : globalHistory.location.pathname));
+    const oldProps = sessionProps.find(({ path: pth }) => pth === (ctx ? ctx.path : globalHistory.location.pathname));
 
     if (oldProps) Props = oldProps.props;
-    else Props = newProp(req, client);
+    else Props = newProp(ctx, client);
   };
 
-  globalHistory.listen(async c => {
+  setProps = (props: any) => setPageProps(props);
+
+  setNewProps = async (c: HistoryListenerParameter) => {
     const oldProps = sessionProps.find(({ path: pth }) => pth === c.location.pathname);
 
-    if (oldProps) setProps(oldProps.props || {});
-    else {
-      await timeout(50);
-      if (typeof (await Props) === 'undefined') return;
-      sessionProps.push({ path: c.location.pathname, props: (await Props) || {} });
-      setProps((await Props) || {});
+    if (oldProps) {
+      setPageProps(oldProps.props || {});
+      // @ts-ignore
+      Props = undefined;
+      return true;
+    } else {
+      await timeout(60);
+      if (typeof (await Props) === 'undefined') return false;
+      const localProps = await Props;
+      sessionProps.push({ path: c.location.pathname, props: localProps || {} });
+      setPageProps(localProps || {});
     }
-  });
+    // @ts-ignore
+    Props = undefined;
+    return false;
+  };
 
   return (
     <PropContext.Provider
       value={{
         useProps,
-        props,
+        props: pageProps,
         sessionProps,
-        req,
+        ctx,
         client,
       }}
     >

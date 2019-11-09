@@ -1,8 +1,8 @@
 // UI/ui/Components/Layout/Nav/NavItem/index.tsx
-import React, { FunctionComponent, useState } from 'react';
-import { ListItem } from '@rmwc/list';
-import { routes, NavItem as RouteItem } from '~Components/Routes';
 import { navigate } from '@reach/router';
+import { ListItem } from '@rmwc/list';
+import React, { FunctionComponent } from 'react';
+import { NavItem as RouteItem, routes } from 'ui/Components/Routes';
 
 const findRoute = (path: string) => {
   let routeItem: RouteItem | undefined;

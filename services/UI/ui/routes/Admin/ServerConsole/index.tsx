@@ -1,7 +1,7 @@
 // UI/ui/routes/Admin/ServerConsole/index.tsx
 import React from 'react';
-import { Layout } from '~Components/Layout';
-import { AdminServerConsoleBox } from '~Components/Admin/ConsoleBox';
+import { AdminServerConsoleBox } from 'ui/Components/Admin/ConsoleBox';
+import { Layout } from 'ui/Components/Layout';
 
 const AdminLogRoute = () => {
   return (

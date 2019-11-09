@@ -1,16 +1,12 @@
 // UI/ui/Components/Admin/Settings/index.tsx
-import React, { FunctionComponent, useState, ChangeEvent } from 'react';
-import UPDATESETTINGSGQL from './updateSettings.graphql';
 import { useMutation } from '@apollo/react-hooks';
-import { FormStyle, FieldStyle } from '~lib/styles';
-import { Typography } from '@rmwc/typography';
-import { TextField } from '@rmwc/textfield';
 import { Button } from '@rmwc/button';
-import '@material/button/dist/mdc.button.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
-import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
+import { TextField } from '@rmwc/textfield';
+import { Typography } from '@rmwc/typography';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { FieldStyle, FormStyle } from 'ui/lib/styles';
+import './Settings.css';
+import UPDATESETTINGSGQL from './updateSettings.graphql';
 
 export interface Settings {
   MCURI: string;

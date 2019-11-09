@@ -1,7 +1,7 @@
 FROM mhart/alpine-node:latest
 WORKDIR /app
 COPY package.json package-lock.json tsconfig.json tsconfig-server.json .babelrc ./
-COPY ./src/ ./src/
+COPY ./server/ ./server/
 COPY ./ui/ ./ui/
 COPY ./bin/ ./bin/
 COPY ./public/ ./public/

@@ -118,6 +118,7 @@
     "@rmwc/textfield": "^5.5.2",
     "@rmwc/top-app-bar": "^5.5.2",
     "@rmwc/typography": "^5.5.2",
+    "@xmcl/minecraft-launcher-core": "^0.1.27",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link": "^1.2.12",

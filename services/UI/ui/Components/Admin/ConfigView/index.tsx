@@ -1,17 +1,12 @@
 // UI/ui/Components/Admin/ConfigView/index.tsx
 import { useQuery } from '@apollo/react-hooks';
-import '@material/floating-label/dist/mdc.floating-label.min.css';
-import '@material/form-field/dist/mdc.form-field.min.css';
-import '@material/line-ripple/dist/mdc.line-ripple.min.css';
-import '@material/notched-outline/dist/mdc.notched-outline.min.css';
-import '@material/switch/dist/mdc.switch.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
 import { Switch } from '@rmwc/switch';
 import { TextField } from '@rmwc/textfield';
 import { Typography } from '@rmwc/typography';
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { LoadingProgress } from '~Components/Loading';
-import { FormStyle } from '~lib/styles';
+import { LoadingProgress } from 'ui/Components/Loading';
+import { FormStyle } from 'ui/lib/styles';
+import './ConfigView.css';
 import GETCONFIGGQL from './getConfig.graphql';
 
 interface FieldBooleanType {
