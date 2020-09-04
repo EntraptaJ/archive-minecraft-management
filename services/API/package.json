@@ -61,7 +61,7 @@
     "rcon-client": "^3.1.6",
     "reflect-metadata": "^0.1.13",
     "tempy": "^0.3.0",
-    "type-graphql": "^0.17.4",
+    "type-graphql": "^0.17.6",
     "typegoose": "^5.7.2",
     "unzipper": "^0.10.1",
     "zip-a-folder": "0.0.8"
